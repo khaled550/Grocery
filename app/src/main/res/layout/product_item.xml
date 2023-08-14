@@ -9,15 +9,15 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="8dp"
+        android:layout_width="150dp"
+        android:layout_height="220dp"
+        android:elevation="20dp"
         app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_margin="10dp">
 
             <ImageView
                 android:id="@+id/productImg"
@@ -36,6 +36,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@{item.name}"
+                android:textSize="14sp"
+                android:fontFamily="@font/gordita_regular"
+                android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

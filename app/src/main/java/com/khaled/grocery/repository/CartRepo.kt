@@ -2,22 +2,22 @@ package com.khaled.grocery.repository
 
 import android.util.Log
 import com.khaled.grocery.api.RetrofitHelper
-import com.khaled.grocery.model.HomeData
-import com.khaled.grocery.model.Product
+import com.khaled.grocery.model.CartData
+import com.khaled.grocery.model.CartModel
 import com.khaled.grocery.model.State
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class MainRepo {
+class CartRepo {
 
-    suspend fun fetchHomeProducts() : Flow<State<List<Product>>> {
+    suspend fun fetchCartItems() : Flow<State<List<CartModel>>>{
         return flow {
             emit(State.Loading)
-            val result = RetrofitHelper.api.getHomeData()
+            val result = RetrofitHelper.api.getCartData()
             if (result.isSuccessful && result.body() != null){
-                Log.i("fetchHomeProducts", result.body()!!.toString())
-                var data = result.body()!!.data as HomeData
-                emit(State.Success(data = data.products!!))
+                Log.i("fetchCartItems", result.body()!!.toString())
+                var data = result.body()!!.data as CartData
+                emit(State.Success(data = data.cartItems!!))
             } else{
                 emit(State.Fail(result.message()))
             }

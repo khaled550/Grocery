@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="item"
+            type="com.khaled.grocery.model.CartModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:elevation="20dp"
+        app:cardCornerRadius="8dp"
+        android:padding="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/productImg"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/fruit_icon" />
+
+            <TextView
+                android:id="@+id/productNameText"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@{item.product.name}"
+                android:textSize="14sp"
+                android:fontFamily="@font/gordita_regular"
+                android:maxLines="1"
+                app:layout_constraintTop_toTopOf="@+id/productImg"
+                app:layout_constraintStart_toEndOf="@+id/productImg"/>
+
+            <TextView
+                android:id="@+id/productPriceText"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@{item.product.name}"
+                android:textSize="14sp"
+                android:fontFamily="@font/gordita_light"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@+id/productImg"
+                app:layout_constraintStart_toEndOf="@+id/productImg"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/productImg">
+
+                <ImageButton
+                    android:id="@+id/addBtn"
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:background="@drawable/icons_plus"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:layout_width="30sp"
+                    android:layout_height="20sp"
+                    app:layout_constraintStart_toEndOf="@+id/addBtn"
+                    app:layout_constraintEnd_toStartOf="@+id/removeBtn"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@{item.qty}"
+                    android:padding="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageButton
+                    android:id="@+id/removeBtn"
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:background="@drawable/icons_minus"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
