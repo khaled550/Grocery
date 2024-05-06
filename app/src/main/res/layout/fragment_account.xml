@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10sp">
+
+        <ImageView
+            android:id="@+id/userImg"
+            android:layout_width="150sp"
+            android:layout_height="150sp"
+            android:src="@drawable/product_0"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="50sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/userNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:fontFamily="@font/gordita_bold"
+            android:textSize="18sp"
+            android:layout_marginTop="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userImg"/>
+
+        <TextView
+            android:id="@+id/personalInfoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/personal_information"
+            android:fontFamily="@font/gordita_bold"
+            android:textSize="14sp"
+            android:layout_marginTop="50sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userNameText"/>
+
+        <TextView
+            android:id="@+id/userEmailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:fontFamily="@font/gordita_light"
+            android:textSize="12sp"
+            android:layout_marginTop="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/personalInfoText"/>
+
+        <TextView
+            android:id="@+id/userPhoneText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone"
+            android:fontFamily="@font/gordita_light"
+            android:textSize="12sp"
+            android:layout_marginTop="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userEmailText"/>
+
+        <TextView
+            android:id="@+id/userLocationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:fontFamily="@font/gordita_light"
+            android:textSize="12sp"
+            android:layout_marginTop="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userPhoneText"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

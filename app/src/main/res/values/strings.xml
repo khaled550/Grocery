@@ -8,4 +8,8 @@
     <string name="new_arrival">New Arrival</string>
     <string name="search">Search</string>
     <string name="view_all">view all</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="location">Location</string>
 </resources>

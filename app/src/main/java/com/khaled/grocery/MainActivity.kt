@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.khaled.grocery.databinding.ActivityMainBinding
 import com.khaled.grocery.model.State
-import com.khaled.grocery.view_model.MainViewModel
+import com.khaled.grocery.ui.view_model.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.viewModel = mainViewModel
+        //binding.viewModel = mainViewModel
         setup()
     }
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             if (it is State.Loading)
                 Log.d("getHomeData: ", "Loading...")
             if (it is State.Success)
-                Log.d("getHomeData: ", it.data.size.toString())
+                Log.d("getHomeData: ", it.data?.data?.products?.size.toString())
         }
     }
 }

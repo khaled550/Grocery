@@ -5,10 +5,10 @@
     <data>
         <variable
             name="item"
-            type="com.khaled.grocery.model.Product" />
+            type="com.khaled.grocery.model.FavData2" />
         <variable
             name="listener"
-            type="com.khaled.grocery.ui.adapter.ProductTouchListener" />
+            type="com.khaled.grocery.ui.adapter.FavTouchListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -21,6 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15sp"
+                android:foreground="@drawable/heart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/productImg"
@@ -38,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@{item.name}"
+                android:text="@{item.product.name}"
                 android:textSize="14sp"
                 android:fontFamily="@font/gordita_regular"
                 android:maxLines="1"

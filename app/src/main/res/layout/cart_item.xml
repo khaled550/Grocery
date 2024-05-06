@@ -46,7 +46,7 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="@{item.product.name}"
+
                 android:textSize="14sp"
                 android:fontFamily="@font/gordita_light"
                 android:maxLines="1"
@@ -74,7 +74,6 @@
                     app:layout_constraintStart_toEndOf="@+id/addBtn"
                     app:layout_constraintEnd_toStartOf="@+id/removeBtn"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="@{item.qty}"
                     android:padding="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 

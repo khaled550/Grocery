@@ -7,13 +7,17 @@ import androidx.fragment.app.Fragment
 import com.khaled.grocery.R
 import com.khaled.grocery.databinding.ActivityMainBinding
 import com.khaled.grocery.ui.view_model.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     private val homeFragment = HomeFragment()
     private val cartFragment = CartFragment()
+    private val favFragment = FavFragment()
+    private val accountFragment = AccountFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +36,14 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.page_cart ->{
                     changeFragment(cartFragment, false)
+                    true
+                }
+                R.id.page_fav ->{
+                    changeFragment(favFragment, false)
+                    true
+                }
+                R.id.page_account ->{
+                    changeFragment(accountFragment, false)
                     true
                 }
                 else -> false

@@ -14,4 +14,9 @@
         android:id="@+id/page_fav"
         android:icon="@drawable/heart"
         android:title="@string/fav"/>
+
+    <item
+        android:id="@+id/page_account"
+        android:icon="@drawable/notification"
+        android:title=""/>
 </menu>

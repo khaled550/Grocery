@@ -15,6 +15,15 @@
         android:padding="10sp"
         tools:context=".ui.MainActivity">
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:loadingState="@{viewModel.homeProducts}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <TextView
             android:id="@+id/userNameText"
             android:layout_width="wrap_content"
@@ -60,12 +69,12 @@
             app:layout_constraintTop_toBottomOf="@+id/searchEdit"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/productRecycler"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:items="@{viewModel.homeProducts.toData()}"
+            app:items="@{viewModel.homeProducts.toData().data.products}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newArrivalTxt">
