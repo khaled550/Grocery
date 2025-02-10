@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.khaled.grocery.ui.view_model.MainViewModel
 
+/*
 abstract class BaseFragment<VB: ViewBinding, VM: ViewModel> : Fragment(){
 
     private var _binding: ViewBinding? = null
@@ -30,4 +31,4 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel> : Fragment(){
     }
 
     abstract fun setup()
-}
+}*/
