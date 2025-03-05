@@ -7,17 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.khaled.grocery.databinding.FragmentCartBinding
+import com.khaled.grocery.databinding.FragmentDetailsBinding
 import com.khaled.grocery.model.State
 import com.khaled.grocery.ui.adapter.CartAdapter
 import com.khaled.grocery.ui.view_model.CartViewModel
 
-class CartFragment : Fragment() {
+class DetailsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = CartFragment()
-    }
-
-    private lateinit var binding: FragmentCartBinding
+    private lateinit var binding: FragmentDetailsBinding
 
     private lateinit var viewModel: CartViewModel
 
@@ -25,22 +22,13 @@ class CartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCartBinding.inflate(layoutInflater)
+        binding = FragmentDetailsBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[CartViewModel::class.java]
         //binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
         (requireActivity() as MainActivity).showLoading(true)
 
-        val adapter = CartAdapter(mutableListOf())
-        binding.recyclerView.adapter = adapter
-        viewModel.cartItems.observe(viewLifecycleOwner) { state ->
-            if (state is State.Success){
-                adapter.setItems(state.toData()!!.data!!.cartItems!!)
-                (requireActivity() as MainActivity).showLoading(false)
-            }
 
-        }
         return binding.root
     }
 }

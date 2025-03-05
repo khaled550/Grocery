@@ -7,10 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.khaled.grocery.databinding.FragmentAccountBinding
-import com.khaled.grocery.databinding.FragmentFavBinding
-import com.khaled.grocery.model.State
-import com.khaled.grocery.ui.adapter.FavAdapter
-import com.khaled.grocery.ui.view_model.FavViewModel
 
 class AccountFragment : Fragment() {
 

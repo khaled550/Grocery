@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <!-- Background Circle -->
+    <path
+        android:fillColor="#FFA500"
+        android:pathData="M50,0 A50,50 0 1,1 0,50 A50,50 0 1,1 50,0" />
+
+    <!-- Inner S-like Shape -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,35 C40,20 60,20 70,35 C80,50 60,70 50,70 C40,70 20,50 30,35"
+        android:strokeWidth="5"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineJoin="round"/>
+</vector>

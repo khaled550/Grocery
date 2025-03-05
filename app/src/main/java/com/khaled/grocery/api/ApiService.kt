@@ -1,11 +1,13 @@
 package com.khaled.grocery.api
 
+import User
 import com.khaled.grocery.model.CartData
 import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.FavData
 import com.khaled.grocery.model.HomeData
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface ApiService {
 
@@ -17,4 +19,12 @@ interface ApiService {
 
     @GET("favorites")
     suspend fun getFavData() : Response<DataResponse<FavData>>
+
+    @POST("register")
+    suspend fun registerUser() : Response<DataResponse<User>>
+
+    /*interface ApiService {
+        @POST("signup")
+        fun registerUser(@Body user: User): Call<Void>
+    }*/
 }

@@ -20,7 +20,6 @@ class HomeFragment : Fragment(){
 
     lateinit var binding: FragmentHomeBinding
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,13 +28,17 @@ class HomeFragment : Fragment(){
 
         binding.lifecycleOwner = viewLifecycleOwner
 
+        (requireActivity() as MainActivity).showLoading(true)
+
         val adapter = ProductAdapter(mutableListOf(), viewModel)
         binding.recyclerView.adapter = adapter
         viewModel.homeProducts.observe(viewLifecycleOwner) { state ->
             if (state is State.Success){
                 adapter.setItems(state.toData()!!.data!!.products)
-            } else if (state is State.Loading)
-                binding.progressCircular.isVisible
+                (requireActivity() as MainActivity).showLoading(false)
+            } else if (state is State.Loading){
+                (requireActivity() as MainActivity).showLoading(true)
+            }
 
         }
 

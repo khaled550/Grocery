@@ -7,7 +7,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<T>(private var listItems: List<T>, private val listener: BaseInteractListener)
+abstract class BaseAdapter<T>(private var listItems: List<T>, val listener: BaseInteractListener)
     : RecyclerView.Adapter<BaseAdapter.BaseVH>() {
 
     abstract val layoutId: Int

@@ -1,5 +1,6 @@
 package com.khaled.grocery.domain.repository
 
+import User
 import android.util.Log
 import com.khaled.grocery.api.RetrofitHelper
 import com.khaled.grocery.model.CartData
@@ -27,5 +28,9 @@ class MainRepo {
 
     fun fetchFavItems() : Flow<State<DataResponse<FavData>?>> {
         return Utils.convertToFlow(RetrofitHelper.api::getFavData)
+    }
+
+    fun fetchRegister() : Flow<State<DataResponse<User>?>> {
+        return Utils.convertToFlow(RetrofitHelper.api::registerUser)
     }
 }

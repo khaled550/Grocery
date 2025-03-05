@@ -2,6 +2,7 @@ package com.khaled.grocery.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.khaled.grocery.R
@@ -62,5 +63,10 @@ class MainActivity : AppCompatActivity() {
         else
             transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
+    }
+
+    fun showLoading(show: Boolean) {
+        binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
+        //binding.textView.visibility = if (show) View.GONE else View.VISIBLE
     }
 }
