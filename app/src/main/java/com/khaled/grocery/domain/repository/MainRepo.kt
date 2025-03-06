@@ -9,7 +9,9 @@ import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.FavData
 import com.khaled.grocery.model.FavData2
 import com.khaled.grocery.model.HomeData
+import com.khaled.grocery.model.LoginResponse
 import com.khaled.grocery.model.Product
+import com.khaled.grocery.model.SignUpResponse
 import com.khaled.grocery.model.State
 import com.khaled.grocery.utils.Utils
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +32,9 @@ class MainRepo {
         return Utils.convertToFlow(RetrofitHelper.api::getFavData)
     }
 
-    fun fetchRegister() : Flow<State<DataResponse<User>?>> {
-        return Utils.convertToFlow(RetrofitHelper.api::registerUser)
-    }
+    /*fun fetchRegister(username: String, password: String) : Flow<State<DataResponse<SignUpResponse>?>> {
+        return Utils.convertToFlow{
+            //RetrofitHelper.api.login()
+        }
+    }*/
 }
