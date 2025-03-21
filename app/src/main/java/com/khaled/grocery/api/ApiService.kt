@@ -6,7 +6,7 @@ import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.FavData
 import com.khaled.grocery.model.HomeData
 import com.khaled.grocery.model.LoginRequest
-import com.khaled.grocery.model.SignUpResponse
+import com.khaled.grocery.model.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,6 +26,6 @@ interface ApiService {
     @POST("register")
     suspend fun registerUser() : Response<DataResponse<User>>
 
-    @GET("login")  // Assuming your login API is at /login
-    suspend fun login(@Body loginRequest: LoginRequest): SignUpResponse
+    @POST("login")
+    suspend fun login(@Body request: LoginRequest): LoginResponse
 }
