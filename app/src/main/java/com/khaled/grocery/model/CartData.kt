@@ -8,5 +8,5 @@ data class CartData(
     @SerializedName("sub_total")
     val sub_total: Int? = null,
     @SerializedName("cart_items")
-    val cartItems: List<CartModel>? = null
+    val cartItems: List<CartItem>? = null
 )

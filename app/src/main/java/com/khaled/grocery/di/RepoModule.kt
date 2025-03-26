@@ -1,5 +1,6 @@
 package com.khaled.grocery.di
 
+import com.khaled.grocery.domain.repository.CartRepo
 import com.khaled.grocery.domain.repository.MainRepo
 import com.khaled.grocery.domain.repository.LoginRepo
 import dagger.Module
@@ -19,5 +20,10 @@ object RepoModule {
     @Provides
     fun provideLoginRepo(): LoginRepo {
         return LoginRepo()
+    }
+
+    @Provides
+    fun provideCartRepo(): CartRepo {
+        return CartRepo()
     }
 }

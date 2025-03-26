@@ -6,10 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.khaled.grocery.databinding.FragmentCartBinding
 import com.khaled.grocery.model.State
 import com.khaled.grocery.ui.adapter.CartAdapter
 import com.khaled.grocery.ui.view_model.CartViewModel
+import kotlinx.coroutines.launch
 
 class CartFragment : Fragment() {
 
@@ -18,29 +22,38 @@ class CartFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentCartBinding
-
-    private lateinit var viewModel: CartViewModel
+    private val viewModel: CartViewModel by activityViewModels()
+    private lateinit var cartAdapter: CartAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCartBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(requireActivity())[CartViewModel::class.java]
-        //binding.viewModel = viewModel
+        binding = FragmentCartBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        (requireActivity() as MainActivity).showLoading(true)
+        cartAdapter = CartAdapter(viewModel)
+        setupRecyclerView()
 
-        val adapter = CartAdapter(mutableListOf())
-        binding.recyclerView.adapter = adapter
-        viewModel.cartItems.observe(viewLifecycleOwner) { state ->
-            if (state is State.Success){
-                adapter.setItems(state.toData()!!.data!!.cartItems!!)
-                (requireActivity() as MainActivity).showLoading(false)
-            }
-
-        }
+        observeCartItems()
         return binding.root
+    }
+
+    private fun setupRecyclerView() {
+        cartAdapter = CartAdapter(viewModel)
+        binding.cartRecyclerView.apply {
+            adapter = cartAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun observeCartItems() {
+        lifecycleScope.launch {
+            viewModel.cartItems.collect { items ->
+                cartAdapter.submitList(items)
+            }
+        }
     }
 }

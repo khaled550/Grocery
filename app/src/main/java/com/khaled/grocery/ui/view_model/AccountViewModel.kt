@@ -1,4 +1,4 @@
-package com.khaled.grocery.ui
+package com.khaled.grocery.ui.view_model
 
 import androidx.lifecycle.ViewModel
 

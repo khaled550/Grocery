@@ -3,12 +3,9 @@ package com.khaled.grocery.domain.repository
 import com.khaled.grocery.api.ApiService
 import com.khaled.grocery.model.LoginRequest
 import com.khaled.grocery.model.LoginResponse
-import com.khaled.grocery.utils.Utils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
-import retrofit2.Response
-import java.io.IOException
 import javax.inject.Inject
 
 class LoginRepo {
@@ -38,19 +35,26 @@ class LoginRepo {
 
 class AuthRepository @Inject constructor(private val apiService: ApiService) {
 
-    fun login(email: String, password: String): Flow<Result<LoginResponse>> = flow {
+    fun login(email: String, password: String): Flow<MyResult<String>> = flow {
+        emit(MyResult.Loading) // Show loading state
+
         try {
-            emit(Result.success(apiService.login(LoginRequest(email, password))))
-        } catch (e: HttpException) {
-            emit(Result.failure(Exception("Login failed: ${e.message}")))
+            val response = apiService.login(LoginRequest(email, password))
+            if (response.isSuccessful && response.body() != null) {
+                val token = response.body()!!.data.token // Extract token
+                emit(MyResult.Success(token)) // Return only the token
+            } else {
+                emit(MyResult.Error("Login failed"))
+            }
         } catch (e: Exception) {
-            emit(Result.failure(Exception("An error occurred: ${e.message}")))
+            emit(MyResult.Error(e.localizedMessage ?: "Unknown error"))
         }
     }
 }
 
 
-sealed class LoginResult {
-    data object Success : LoginResult()
-    data class Error(val message: String) : LoginResult()
+sealed class MyResult<out T> {
+    object Loading : MyResult<Nothing>()
+    data class Success<T>(val data: T) : MyResult<T>()
+    data class Error(val message: String) : MyResult<Nothing>()
 }

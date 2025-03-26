@@ -2,11 +2,11 @@ package com.khaled.grocery.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CartModel(
+data class CartItem(
     @SerializedName("id")
-    val id: Int? = null,
+    val id: Int = -1,
     @SerializedName("quantity")
-    val qty: Int? = null,
+    var quantity: Int? = null,
     @SerializedName("product")
     val product: Product? = null,
 )

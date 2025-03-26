@@ -1,32 +1,33 @@
 package com.khaled.grocery.ui.view_model
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.khaled.grocery.model.CartData
-import com.khaled.grocery.model.DataResponse
-import com.khaled.grocery.model.State
-import com.khaled.grocery.domain.repository.MainRepo
+import com.khaled.grocery.domain.repository.CartRepo
+import com.khaled.grocery.model.CartItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val repo: MainRepo
-): ViewModel() {
+    private val repository: CartRepo
+) : ViewModel() {
 
-    val cartItems = MutableLiveData<State<DataResponse<CartData>?>>()
+    val cartItems: StateFlow<List<CartItem>> = repository.getCartItems()
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    init {
-        getCartItems()
+    fun updateQuantity(itemId: Int, newQuantity: Int) {
+        viewModelScope.launch {
+            repository.updateCartItemQuantity(itemId, newQuantity)
+        }
     }
 
-    private fun getCartItems(){
+    fun removeItem(itemId: Int) {
         viewModelScope.launch {
-            repo.fetchCartItems().collect{
-                cartItems.postValue(it)
-            }
+            repository.removeItemFromCart(itemId)
         }
     }
 }
