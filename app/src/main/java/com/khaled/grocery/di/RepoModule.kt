@@ -1,5 +1,6 @@
 package com.khaled.grocery.di
 
+import com.khaled.grocery.api.ApiService
 import com.khaled.grocery.domain.repository.CartRepo
 import com.khaled.grocery.domain.repository.MainRepo
 import com.khaled.grocery.domain.repository.LoginRepo
@@ -23,7 +24,7 @@ object RepoModule {
     }
 
     @Provides
-    fun provideCartRepo(): CartRepo {
-        return CartRepo()
+    fun provideCartRepo(apiService: ApiService): CartRepo {
+        return CartRepo(apiService)
     }
 }

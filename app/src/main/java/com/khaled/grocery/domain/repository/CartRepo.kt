@@ -1,25 +1,38 @@
 package com.khaled.grocery.domain.repository
 
+import com.khaled.grocery.api.ApiService
+import com.khaled.grocery.api.RetrofitHelper
+import com.khaled.grocery.model.CartData
 import com.khaled.grocery.model.CartItem
+import com.khaled.grocery.model.DataResponse
+import com.khaled.grocery.model.State
+import com.khaled.grocery.utils.Utils
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import retrofit2.Response
+import javax.inject.Inject
 
-class CartRepo {
-    private val cartItems = MutableStateFlow<List<CartItem>>(emptyList())
+class CartRepo @Inject constructor(
+    private val apiService: ApiService
+) {
 
-    fun getCartItems(): Flow<List<CartItem>> = cartItems
+    val cartItems : List<CartItem> = emptyList()
 
-    suspend fun updateCartItemQuantity(itemId: Int, newQuantity: Int) {
-        cartItems.emit(cartItems.value.map { item ->
-            if (item.id == itemId) item.copy(quantity = newQuantity) else item
-        })
+    fun fetchCartItems() : Flow<State<DataResponse<CartData>?>> {
+        return Utils.convertToFlow(RetrofitHelper.api::getCartData)
     }
 
-    suspend fun addItemToCart(item: CartItem) {
-        cartItems.emit(cartItems.value + item)
-    }
+    fun getCartItems(): Flow<Response<DataResponse<CartData>>> = flow {
+        val response: Response<DataResponse<CartData>> = apiService.getCartData()
+        fetchCartItems()
 
-    suspend fun removeItemFromCart(itemId: Int) {
-        cartItems.emit(cartItems.value.filterNot { it.id == itemId })
-    }
+        emit(response)
+    }.flowOn(Dispatchers.IO)
+
+    /*suspend fun updateCartItem(item: CartItem): Response<CartItem> {
+        return apiService.updateCartItem(item)
+    }*/
 }

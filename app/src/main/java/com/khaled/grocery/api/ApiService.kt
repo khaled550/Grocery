@@ -2,6 +2,7 @@ package com.khaled.grocery.api
 
 import User
 import com.khaled.grocery.model.CartData
+import com.khaled.grocery.model.CartItem
 import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.FavData
 import com.khaled.grocery.model.HomeData
@@ -19,6 +20,11 @@ interface ApiService {
 
     @GET("carts")
     suspend fun getCartData() : Response<DataResponse<CartData>>
+
+    interface CartApiService {
+        @GET("cart/items")
+        suspend fun getCartData(): List<CartItem> // ✅ Must be List<CartItem>
+    }
 
     @GET("favorites")
     suspend fun getFavData() : Response<DataResponse<FavData>>

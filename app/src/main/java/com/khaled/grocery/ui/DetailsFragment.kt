@@ -26,7 +26,7 @@ class DetailsFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[CartViewModel::class.java]
         //binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        (requireActivity() as MainActivity).showLoading(true)
+        //(requireActivity() as MainActivity).showLoading(true)
 
 
         return binding.root

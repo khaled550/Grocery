@@ -28,16 +28,16 @@ class HomeFragment : Fragment(){
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        (requireActivity() as MainActivity).showLoading(true)
+        //(requireActivity() as MainActivity).showLoading(true)
 
         val adapter = ProductAdapter(mutableListOf(), viewModel)
         binding.recyclerView.adapter = adapter
         viewModel.homeProducts.observe(viewLifecycleOwner) { state ->
             if (state is State.Success){
                 adapter.setItems(state.toData()!!.data!!.products)
-                (requireActivity() as MainActivity).showLoading(false)
+                //(requireActivity() as MainActivity).showLoading(false)
             } else if (state is State.Loading){
-                (requireActivity() as MainActivity).showLoading(true)
+                //(requireActivity() as MainActivity).showLoading(true)
             }
 
         }

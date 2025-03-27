@@ -66,8 +66,8 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    fun showLoading(show: Boolean) {
+    /*fun showLoading(show: Boolean) {
         binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
         //binding.textView.visibility = if (show) View.GONE else View.VISIBLE
-    }
+    }*/
 }

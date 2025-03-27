@@ -38,6 +38,7 @@ class CartFragment : Fragment() {
         setupRecyclerView()
 
         observeCartItems()
+
         return binding.root
     }
 
@@ -51,8 +52,19 @@ class CartFragment : Fragment() {
 
     private fun observeCartItems() {
         lifecycleScope.launch {
-            viewModel.cartItems.collect { items ->
-                cartAdapter.submitList(items)
+            viewModel.cartItems.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is State.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is State.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        state.data?.let { cartAdapter.submitList(it.data?.cartItems) }
+                    }
+                    is State.Fail -> {
+                        binding.progressBar.visibility = View.GONE
+                    }
+                }
             }
         }
     }

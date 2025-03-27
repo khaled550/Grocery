@@ -40,17 +40,16 @@ class FavFragment : Fragment(), FavTouchListener {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        (requireActivity() as MainActivity).showLoading(true)
+        //(requireActivity() as MainActivity).showLoading(true)
 
         val adapter = FavAdapter(mutableListOf(), viewModel)
         binding.favRecycler.adapter = adapter
         viewModel.favItems.observe(viewLifecycleOwner) { state ->
             if (state is State.Success){
                 adapter.setItems(state.toData()!!.data!!.favlist)
-                (requireActivity() as MainActivity).showLoading(false)
+                //(requireActivity() as MainActivity).showLoading(false)
             }
-            else
-                (requireActivity() as MainActivity).showLoading(true)
+                //(requireActivity() as MainActivity).showLoading(true)
         }
 
         return binding.root
