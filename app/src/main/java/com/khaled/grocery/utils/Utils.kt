@@ -32,5 +32,49 @@ class Utils {
                 }
             }
         }
+
+        fun <T> convertToFlowWithArgs(function: suspend () -> Response<T>): Flow<State<T?>> {
+            return flow {
+                emit(State.Loading) // Emit loading state
+                try {
+                    val result = function() // Execute the provided function
+                    if (result.isSuccessful && result.body() != null) {
+                        Log.i("toFlow", result.body()!!.toString())
+                        emit(State.Success(data = result.body()!!)) // Emit success with the result
+                    } else {
+                        emit(State.Fail(result.message())) // Emit failure with error message
+                    }
+                } catch (e: Exception) {
+                    // Handle exceptions
+                    when (e) {
+                        is SocketTimeoutException -> emit(State.Fail("Request timed out. Please try again."))
+                        is IOException -> emit(State.Fail("Network error. Check your connection."))
+                        else -> emit(State.Fail("An unexpected error occurred."))
+                    }
+                }
+            }
+        }
+    }
+
+    fun <T> convertToFlowWithArgs(function: suspend () -> Response<T>): Flow<State<T?>> {
+        return flow {
+            emit(State.Loading) // Emit loading state
+            try {
+                val result = function() // Execute the provided function
+                if (result.isSuccessful && result.body() != null) {
+                    Log.i("toFlow", result.body()!!.toString())
+                    emit(State.Success(data = result.body()!!)) // Emit success with the result
+                } else {
+                    emit(State.Fail(result.message())) // Emit failure with error message
+                }
+            } catch (e: Exception) {
+                // Handle exceptions
+                when (e) {
+                    is SocketTimeoutException -> emit(State.Fail("Request timed out. Please try again."))
+                    is IOException -> emit(State.Fail("Network error. Check your connection."))
+                    else -> emit(State.Fail("An unexpected error occurred."))
+                }
+            }
+        }
     }
 }

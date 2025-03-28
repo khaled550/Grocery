@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="10dp">
 
             <ImageView
@@ -62,8 +62,8 @@
 
                 <ImageButton
                     android:id="@+id/addBtn"
-                    android:layout_width="15sp"
-                    android:layout_height="15sp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:background="@drawable/icons_plus"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -71,14 +71,14 @@
 
                 <TextView
                     android:id="@+id/quantityText"
-                    android:layout_width="30sp"
-                    android:layout_height="20sp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     app:layout_constraintStart_toEndOf="@+id/addBtn"
                     app:layout_constraintEnd_toStartOf="@+id/removeBtn"
                     app:layout_constraintTop_toTopOf="parent"
                     android:gravity="center"
-                    android:text="@{item.quantity}"
-                    android:textSize="14sp"
+                    android:text="@{item.quantity.toString()}"
+                    android:textSize="24sp"
                     android:fontFamily="@font/gordita_regular"
                     android:textColor="@color/material_color_black"
                     android:visibility="visible"
@@ -86,8 +86,8 @@
 
                 <ImageButton
                     android:id="@+id/removeBtn"
-                    android:layout_width="15sp"
-                    android:layout_height="15sp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:background="@drawable/icons_minus"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

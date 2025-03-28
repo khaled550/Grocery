@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.khaled.grocery.domain.repository.CartRepo
 import com.khaled.grocery.model.CartData
+import com.khaled.grocery.model.CartItem
 import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.State
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,9 +21,13 @@ class CartViewModel @Inject constructor(
 
     val cartItems = MutableLiveData<State<DataResponse<CartData>?>>()
 
+    init {
+        getCartData()
+    }
+
     private fun getCartData() {
         viewModelScope.launch {
-            repository.fetchCartItems()
+            repository.getCartItems()
                 .onStart { cartItems.value = State.Loading }
                 .collect{
                     cartItems.postValue(it)
@@ -30,9 +35,13 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun updateQuantity(itemId: Int, newQuantity: Int) {
+    fun updateQuantity(item: CartItem) {
         viewModelScope.launch {
-            //repository.updateCartItemQuantity(itemId, newQuantity)
+            repository.updateCartItem(item)
+                .onStart { cartItems.value = State.Loading }
+                .collect {
+                    cartItems.postValue(it)
+                }
         }
     }
 

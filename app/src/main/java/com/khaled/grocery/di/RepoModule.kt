@@ -14,8 +14,8 @@ import dagger.hilt.components.SingletonComponent
 object RepoModule {
 
     @Provides
-    fun provideMainRepo(): MainRepo {
-        return MainRepo()
+    fun provideMainRepo(apiService: ApiService): MainRepo {
+        return MainRepo(apiService)
     }
 
     @Provides

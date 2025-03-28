@@ -21,10 +21,8 @@ interface ApiService {
     @GET("carts")
     suspend fun getCartData() : Response<DataResponse<CartData>>
 
-    interface CartApiService {
-        @GET("cart/items")
-        suspend fun getCartData(): List<CartItem> // ✅ Must be List<CartItem>
-    }
+    @POST("carts")
+    suspend fun updateCartItem(item: CartItem): Response<DataResponse<CartData>>
 
     @GET("favorites")
     suspend fun getFavData() : Response<DataResponse<FavData>>

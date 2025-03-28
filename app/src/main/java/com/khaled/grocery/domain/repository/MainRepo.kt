@@ -1,6 +1,6 @@
 package com.khaled.grocery.domain.repository
 
-import com.khaled.grocery.api.RetrofitHelper
+import com.khaled.grocery.api.ApiService
 import com.khaled.grocery.model.CartData
 import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.FavData
@@ -8,24 +8,22 @@ import com.khaled.grocery.model.HomeData
 import com.khaled.grocery.model.State
 import com.khaled.grocery.utils.Utils
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class MainRepo {
+class MainRepo @Inject constructor(
+    private val apiService: ApiService
+) {
 
     fun fetchHomeProducts() : Flow<State<DataResponse<HomeData>?>> {
-        return Utils.convertToFlow(RetrofitHelper.api::getHomeData)
+        return Utils.convertToFlow(apiService::getHomeData)
     }
 
     fun fetchCartItems() : Flow<State<DataResponse<CartData>?>> {
-        return Utils.convertToFlow(RetrofitHelper.api::getCartData)
+        return Utils.convertToFlow(apiService::getCartData)
     }
 
     fun fetchFavItems() : Flow<State<DataResponse<FavData>?>> {
-        return Utils.convertToFlow(RetrofitHelper.api::getFavData)
+        return Utils.convertToFlow(apiService::getFavData)
     }
 
-    /*fun fetchRegister(username: String, password: String) : Flow<State<DataResponse<SignUpResponse>?>> {
-        return Utils.convertToFlow{
-            //RetrofitHelper.api.login()
-        }
-    }*/
 }

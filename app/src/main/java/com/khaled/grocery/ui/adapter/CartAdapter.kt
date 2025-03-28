@@ -28,12 +28,22 @@ class CartAdapter(private val viewModel: CartViewModel) :
             binding.executePendingBindings()
 
             binding.addBtn.setOnClickListener {
-                viewModel.updateQuantity(item.id, item.quantity?.plus(1) ?: 1)
+                item.quantity?.plus(1) ?: 1
+                viewModel.updateQuantity(item).let {
+                    if (item.quantity == null) {
+                        item.quantity = 1
+                    } else {
+                        item.quantity = item.quantity?.plus(1)
+                    }
+                }
             }
 
             binding.removeBtn.setOnClickListener {
                 if (item.quantity!! > 1) {
-                    viewModel.updateQuantity(item.id, item.quantity?.minus(1) ?: 1)
+                    item.quantity?.minus(1) ?: 1
+                    viewModel.updateQuantity(item).let {
+                        item.quantity = item.quantity?.minus(1)
+                    }
                 } else {
                     viewModel.removeItem(item.id)
                 }
