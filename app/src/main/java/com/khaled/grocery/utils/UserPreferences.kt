@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,6 +20,17 @@ class UserPreferences @Inject constructor(private val context: Context) {
 
     companion object {
         private val TOKEN_KEY = stringPreferencesKey("auth_token")
+        private val DEFAULT_ADDRESS = intPreferencesKey("default_address_id")
+    }
+
+    val defaultAddressId: Flow<Int?> = context.dataStore.data.map { preferences ->
+        preferences[DEFAULT_ADDRESS]
+    }
+
+    suspend fun saveDefaultAddress(defaultAddress: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[DEFAULT_ADDRESS] = defaultAddress
+        }
     }
 
     // Function to save the auth token

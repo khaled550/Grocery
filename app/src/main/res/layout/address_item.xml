@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="item"
+            type="com.khaled.grocery.model.AddressData.Address" />
+    </data>
+
+    <!-- res/layout/item_address.xml -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_edittext">
+
+        <!-- Address Information -->
+        <TextView
+            android:id="@+id/address_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@{item.name}"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/address_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{item.city}" />
+
+        <TextView
+            android:id="@+id/address_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{item.details}" />
+
+        <!-- Buttons for Edit and Delete -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:paddingTop="8dp">
+
+            <!-- Edit Button -->
+            <ImageButton
+                android:id="@+id/btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@android:color/holo_blue_light"
+                android:src="@drawable/ic_edit"
+                android:textColor="@android:color/black" />
+
+            <!-- Delete Button -->
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:backgroundTint="@android:color/holo_red_light"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</layout>

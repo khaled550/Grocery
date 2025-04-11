@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Grocery</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="cart">Cart</string>
     <string name="fav">Favourite</string>
+    <string name="account">Account</string>
     <string name="new_arrival">New Arrival</string>
     <string name="search">Search</string>
     <string name="view_all">view all</string>
@@ -12,5 +13,32 @@
     <string name="email">Email</string>
     <string name="phone">Phone</string>
     <string name="location">Location</string>
-    <string name="add_to_cart">Add To Cart</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="checkout_txt">Checkout</string>
+    <string name="remove_cart_item">Remove from Cart</string>
+    <string name="my_orders">My Orders</string>
+    <string name="my_addresses">My Addresses</string>
+    <string name="app_settings">App Settings</string>
+    <string name="logout_setting">Logout</string>
+    <string name="full_name">Full Name</string>
+    <string name="city">City</string>
+    <string name="region">Region</string>
+    <string name="street_details">Street Details</string>
+    <string name="notes_optional">Notes (Optional)</string>
+    <string name="add_address">Add Address</string>
+    <string name="edit">Edit</string>
+    <string name="update_address">Update Address</string>
+    <string name="delete_confirm">Are you sure you want to delete?</string>
+    <string name="delete_address">Delete Address</string>
+    <string name="checkout">Checkout</string>
+    <string name="set_as_default">Set as default</string>
+    <string name="address_added_successfully">Address added successfully</string>
+    <string name="cash">Cash</string>
+    <string name="online">Online</string>
+    <string name="confirm_order">Confirm Order</string>
+    <string name="total">"Total: "</string>
+    <string name="cart_summary">Cart Summary</string>
+    <string name="no_address_selected">No address selected</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="order_placed_successfully">Order placed successfully</string>
 </resources>

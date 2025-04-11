@@ -9,45 +9,43 @@ import com.khaled.grocery.model.CartItem
 import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-import kotlinx.coroutines.flow.onStart
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val repository: CartRepo
 ) : ViewModel() {
 
-    val cartItems = MutableLiveData<State<DataResponse<CartData>?>>()
+    private val _cartState = MutableLiveData<State<DataResponse<CartData>?>>()
+    val cartState: MutableLiveData<State<DataResponse<CartData>?>> = _cartState
 
-    init {
-        getCartData()
-    }
-
-    private fun getCartData() {
+    fun loadCartItems() {
         viewModelScope.launch {
-            repository.getCartItems()
-                .onStart { cartItems.value = State.Loading }
-                .collect{
-                    cartItems.postValue(it)
-                }
+            repository.getCartItems().collectLatest { _cartState.value = it }
         }
     }
 
-    fun updateQuantity(item: CartItem) {
+    fun updateCartItem(item: CartItem, onComplete: () -> Unit) {
         viewModelScope.launch {
-            repository.updateCartItem(item)
-                .onStart { cartItems.value = State.Loading }
-                .collect {
-                    cartItems.postValue(it)
+            repository.updateCartItem(item).collectLatest { result ->
+                if (result is State.Success) {
+                    loadCartItems() // Refresh the cart after update
                 }
+                onComplete()
+            }
         }
     }
 
-    fun removeItem(itemId: Int) {
+    fun deleteCartItem(itemId: Int, onComplete: () -> Unit) {
         viewModelScope.launch {
-            //repository.removeItemFromCart(itemId)
+            repository.deleteCartItem(itemId).collectLatest { result ->
+                if (result is State.Success) {
+                    loadCartItems() // Refresh cart
+                } else
+                onComplete() // Re-enable UI buttons
+            }
         }
     }
 }

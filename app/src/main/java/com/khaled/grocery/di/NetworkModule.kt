@@ -1,5 +1,7 @@
-package com.khaled.grocery.api
+package com.khaled.grocery.di
 
+import com.khaled.grocery.api.ApiService
+import com.khaled.grocery.api.MyInterceptor
 import com.khaled.grocery.utils.UserPreferences
 import dagger.Module
 import dagger.Provides
@@ -9,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -26,9 +29,17 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(myInterceptor: MyInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(myInterceptor)
-            .build()
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        return OkHttpClient.Builder().apply {
+            addInterceptor(myInterceptor)
+                .addInterceptor(logging)
+                .connectTimeout(30, TimeUnit.SECONDS) // Increase connection timeout
+                .readTimeout(30, TimeUnit.SECONDS)    // Increase read timeout
+                .writeTimeout(30, TimeUnit.SECONDS)   // Increase write timeout
+                .retryOnConnectionFailure(true)
+        }.build()
     }
 
     @Provides

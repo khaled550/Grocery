@@ -6,7 +6,7 @@ import java.util.Objects
 
 open class DataResponse<T>(
     @SerializedName("message")
-    val message: Any? = null,
+    val message: String? = null,
     @SerializedName("status")
     val status: Boolean? = null,
     @SerializedName("data")

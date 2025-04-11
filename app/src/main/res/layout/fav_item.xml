@@ -5,7 +5,7 @@
     <data>
         <variable
             name="item"
-            type="com.khaled.grocery.model.FavData2" />
+            type="com.khaled.grocery.model.FavModel" />
         <variable
             name="listener"
             type="com.khaled.grocery.ui.adapter.FavTouchListener" />

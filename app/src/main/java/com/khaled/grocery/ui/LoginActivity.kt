@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.khaled.grocery.databinding.ActivityLoginBinding
-import com.khaled.grocery.domain.repository.MyResult
+import com.khaled.grocery.model.State
 import com.khaled.grocery.ui.view_model.AuthViewModel
 import com.khaled.grocery.utils.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,17 +52,17 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             authViewModel.loginState.collect { result ->
                 when (result) {
-                    is MyResult.Loading -> {
+                    is State.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                     }
-                    is MyResult.Success -> {
+                    is State.Success -> {
                         binding.progressBar.visibility = View.GONE
                         Toast.makeText(this@LoginActivity, "Login Successful", Toast.LENGTH_SHORT).show()
                         navigateToHome()
                     }
-                    is MyResult.Error -> {
+                    is State.Fail -> {
                         binding.progressBar.visibility = View.GONE
-                        Toast.makeText(this@LoginActivity, "Error: ${result.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "Error: ${result.msg}", Toast.LENGTH_SHORT).show()
                     }
                     null -> Unit
                 }

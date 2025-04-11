@@ -9,10 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.khaled.grocery.databinding.FragmentAccountBinding
+import com.khaled.grocery.model.State
 import com.khaled.grocery.ui.view_model.AccountViewModel
 import com.khaled.grocery.ui.view_model.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class AccountFragment : Fragment() {
 
     companion object {
@@ -20,8 +26,7 @@ class AccountFragment : Fragment() {
     }
 
     private val authViewModel: AuthViewModel by activityViewModels()
-
-    private lateinit var viewModel: AccountViewModel
+    private val viewModel: AccountViewModel by viewModels()
 
     private lateinit var binding: FragmentAccountBinding
 
@@ -31,14 +36,51 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAccountBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[AccountViewModel::class.java]
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.logoutButton.setOnClickListener {
-            showLogoutConfirmationDialog()
-        }
+        observeUserData()
+        setupOptions()
 
         return binding.root
+    }
+
+    private fun observeUserData() {
+        viewModel.userData.observe(viewLifecycleOwner) {
+            when (it) {
+                is State.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is State.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    val user = it.toData()?.data
+                    if (user != null) {
+                        binding.userName.text = user.name
+                        binding.userEmail.text = user.email
+                        binding.userPhone.text = user.phone
+                    }
+                }
+                is State.Fail -> {
+                    binding.progressBar.visibility = View.GONE
+                    // Handle error state
+                }
+            }
+        }
+    }
+
+    private fun setupOptions() {
+        binding.optionLogout.setOnClickListener {
+            showLogoutConfirmationDialog()
+        }
+        binding.optionOrders.setOnClickListener {
+            val action = AccountFragmentDirections.actionAccountFragmentToOrderFragment()
+            findNavController().navigate(action)
+        }
+        binding.optionSettings.setOnClickListener {
+        }
+        binding.optionAddresses.setOnClickListener {
+            val action = AccountFragmentDirections.actionAccountFragmentToAddressFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun showLogoutConfirmationDialog() {

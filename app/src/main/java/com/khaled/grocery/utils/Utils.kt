@@ -10,26 +10,28 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 
 class Utils {
-    public
 
     companion object {
         fun <T> convertToFlow(function: suspend () -> Response<T>): Flow<State<T?>> {
             return flow {
-                emit(State.Loading)
-                val result = function()
-                if (result.isSuccessful && result.body() != null){
-                    Log.i("toFlow", result.body()!!.toString())
-                    emit(State.Success(data = result.body()!!))
-                } else{
-                    emit(State.Fail(result.message()))
+                emit(State.Loading) // Emit loading state
+                val result = function() // Execute the API call
+                if (result.isSuccessful && result.body() != null) {
+                    Log.i("toFlow", result.message())
+                    emit(State.Success(data = result.body()!!)) // Emit success state
+                } else {
+                    emit(State.Fail(result.message())) // Emit failure state
+                    Log.i("toFlow", result.message())
                 }
             }.catch { e ->
                 // Handle exceptions
-                when (e) {
-                    is SocketTimeoutException -> emit(State.Fail("Request timed out. Please try again."))
-                    is IOException -> emit(State.Fail("Network error. Check your connection."))
-                    else -> emit(State.Fail("An unexpected error occurred."))
+                val errorMessage = when (e) {
+                    is SocketTimeoutException -> "Request timed out. Please try again."
+                    is IOException -> "Network error. Check your connection."
+                    else -> "An unexpected error occurred."
                 }
+                Log.i("toFlow", e.toString())
+                emit(State.Fail(errorMessage)) // Emit failure state with error message
             }
         }
 
@@ -51,28 +53,6 @@ class Utils {
                         is IOException -> emit(State.Fail("Network error. Check your connection."))
                         else -> emit(State.Fail("An unexpected error occurred."))
                     }
-                }
-            }
-        }
-    }
-
-    fun <T> convertToFlowWithArgs(function: suspend () -> Response<T>): Flow<State<T?>> {
-        return flow {
-            emit(State.Loading) // Emit loading state
-            try {
-                val result = function() // Execute the provided function
-                if (result.isSuccessful && result.body() != null) {
-                    Log.i("toFlow", result.body()!!.toString())
-                    emit(State.Success(data = result.body()!!)) // Emit success with the result
-                } else {
-                    emit(State.Fail(result.message())) // Emit failure with error message
-                }
-            } catch (e: Exception) {
-                // Handle exceptions
-                when (e) {
-                    is SocketTimeoutException -> emit(State.Fail("Request timed out. Please try again."))
-                    is IOException -> emit(State.Fail("Network error. Check your connection."))
-                    else -> emit(State.Fail("An unexpected error occurred."))
                 }
             }
         }

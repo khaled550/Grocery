@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">البقالة</string>
+    <string name="home">الرئيسية</string>
+    <string name="cart">السلة</string>
+    <string name="fav">المفضلة</string>
+    <string name="account">حسابي</string>
+    <string name="new_arrival">وصل حديثا</string>
+    <string name="search">البحث</string>
+    <string name="view_all">عرض الكل</string>
+    <string name="personal_information">بياناتي الشخصية</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="phone">الهاتف</string>
+    <string name="location">الموقع</string>
+    <string name="add_to_cart">إضافة الى السلة</string>
+    <string name="checkout_txt">الشراء</string>
+    <string name="remove_cart_item">حذف من السلة</string>
+    <string name="my_orders">طلباتي</string>
+    <string name="my_addresses">العناوين</string>
+    <string name="app_settings">إعدادات التطبيق</string>
+    <string name="logout_setting">تسجيل الخروج</string>
+    <string name="full_name">الإسم الكامل</string>
+    <string name="city">المدينة</string>
+    <string name="region">المنطقة</string>
+    <string name="street_details">تفاصيل العنوان</string>
+    <string name="notes_optional">ملاحظات (اختياري)</string>
+    <string name="add_address">إضافة عنوان</string>
+    <string name="edit">تعديل</string>
+    <string name="update_address">تعديل العنوان</string>
+</resources>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.khaled.grocery.R
 import com.khaled.grocery.databinding.FragmentCartBinding
@@ -36,28 +37,36 @@ class FavFragment : Fragment(), FavTouchListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.fav)
         binding = FragmentFavBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        //(requireActivity() as MainActivity).showLoading(true)
-
         val adapter = FavAdapter(mutableListOf(), viewModel)
         binding.favRecycler.adapter = adapter
         viewModel.favItems.observe(viewLifecycleOwner) { state ->
-            if (state is State.Success){
-                adapter.setItems(state.toData()!!.data!!.favlist)
-                //(requireActivity() as MainActivity).showLoading(false)
+            when (state) {
+                is State.Loading -> {
+                    // Handle loading state
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is State.Success -> {
+                    // Handle success state
+                    binding.progressBar.visibility = View.GONE
+                    adapter.setItems(state.toData()!!.data!!.favlist)
+                    binding.favRecycler.adapter = adapter
+                }
+                is State.Fail -> {
+                    // Handle error state
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Error: ${state.toData()}", Toast.LENGTH_SHORT).show()
+                }
             }
-                //(requireActivity() as MainActivity).showLoading(true)
         }
-
         return binding.root
     }
 
     override fun onClickFavItem(favItem: Product) {
         Toast.makeText(activity, "Clicked on item ", Toast.LENGTH_SHORT).show()
     }
-
-
 }

@@ -6,7 +6,7 @@ data class FavData (
     @SerializedName("current_page")
     val currentPage: Int? = 0,
     @SerializedName("data")
-    val favlist: List<FavData2>? = listOf(),
+    val favlist: List<FavDataItem>? = listOf(),
     @SerializedName("first_page_url")
     val firstPageUrl: String? = "",
     @SerializedName("from")
@@ -27,4 +27,11 @@ data class FavData (
     val to: Int? = 0,
     @SerializedName("total")
     val total: Int? = 0
-)
+){
+    data class FavDataItem(
+        @SerializedName("id")
+        val id: Int? = 0,
+        @SerializedName("product")
+        val product: Product? = Product()
+    )
+}
