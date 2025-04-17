@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.khaled.grocery.databinding.OrderItemBinding
 import com.khaled.grocery.model.OrderSummaryData.OrderSummaryItem
 
-class OrderAdapter : ListAdapter<OrderSummaryItem, OrderAdapter.OrderViewHolder>(DiffCallback()) {
+class OrderAdapter(
+    private val listener: OrderTouchListener
+) : ListAdapter<OrderSummaryItem, OrderAdapter.OrderViewHolder>(DiffCallback()) {
 
     class OrderViewHolder(private val binding: OrderItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -29,7 +31,11 @@ class OrderAdapter : ListAdapter<OrderSummaryItem, OrderAdapter.OrderViewHolder>
     }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
+        val item = getItem(position)
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            listener.onClickItem(item.id)
+        }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<OrderSummaryItem>() {
@@ -37,3 +43,8 @@ class OrderAdapter : ListAdapter<OrderSummaryItem, OrderAdapter.OrderViewHolder>
         override fun areContentsTheSame(old: OrderSummaryItem, new: OrderSummaryItem) = old == new
     }
 }
+
+interface OrderTouchListener: BaseInteractListener {
+    fun onClickItem(orderId: Int)
+}
+

@@ -1,8 +1,11 @@
 package com.khaled.grocery.ui.view_model
 
+import SignUpRequest
+import User
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.khaled.grocery.domain.repository.AuthRepository
+import com.khaled.grocery.domain.repository.AuthRepo
+import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.State
 import com.khaled.grocery.utils.UserPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,24 +18,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
+    private val authRepository: AuthRepo,
     private val userPreferences: UserPreferences
 ) : ViewModel() {
 
-    private val _loginState = MutableStateFlow<State<String>?>(null)
-    val loginState: StateFlow<State<String>?> = _loginState.asStateFlow()
+    val authToken: Flow<String?> = userPreferences.authToken
+    private val _loginState = MutableStateFlow<State<DataResponse<User>>>(State.Loading)
+    val loginState: StateFlow<State<DataResponse<User>>> = _loginState.asStateFlow()
 
-    private val _logoutState = MutableStateFlow<State<Boolean>?>(null)
-    val logoutState: StateFlow<State<Boolean>?> = _logoutState.asStateFlow()
+    private val _signupState = MutableStateFlow<State<DataResponse<User>>>(State.Loading)
+    val signupState: StateFlow<State<DataResponse<User>>> = _signupState.asStateFlow()
 
-    // Function to login
     fun login(email: String, password: String) {
         viewModelScope.launch {
             _loginState.value = State.Loading
-
             authRepository.login(email, password).collect { result ->
                 if (result is State.Success) {
-                    userPreferences.saveAuthToken(result.data) // Save token in DataStore
+                    userPreferences.saveAuthToken(result.data.data!!.token) // Save token in DataStore
                 }
                 _loginState.value = result
             }
@@ -42,10 +44,19 @@ class AuthViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             userPreferences.clearAuthToken()
-            _logoutState.value = State.Success(true)
         }
     }
 
-    // Function to retrieve the auth token as a Flow
-    val authToken: Flow<String?> = userPreferences.authToken
+    fun signUp(signUpRequest: SignUpRequest) {
+        viewModelScope.launch {
+            _loginState.value = State.Loading
+            authRepository.signUp(signUpRequest).collect { result ->
+                if (result is State.Success) {
+                    _signupState.value = result
+                    userPreferences.saveAuthToken(result.data.data!!.token) // Save token in DataStore
+                }
+                _loginState.value = result
+            }
+        }
+    }
 }

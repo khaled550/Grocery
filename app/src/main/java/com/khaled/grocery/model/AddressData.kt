@@ -55,6 +55,7 @@ data class AddressData(
         @SerializedName("latitude")
         val latitude: Double? = null,
         @SerializedName("longitude")
-        val longitude: Double? = null
+        val longitude: Double? = null,
+        val isDefault: Boolean? = false,
     )
 }

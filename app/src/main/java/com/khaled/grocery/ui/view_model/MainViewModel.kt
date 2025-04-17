@@ -11,31 +11,28 @@ import com.khaled.grocery.model.State
 import com.khaled.grocery.domain.repository.MainRepo
 import com.khaled.grocery.ui.adapter.ProductTouchListener
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class  MainViewModel @Inject constructor(
     private val repo: MainRepo
-) : ViewModel(), ProductTouchListener {
+) : ViewModel() {
 
-    val homeProducts = MutableLiveData<State<DataResponse<HomeData>?>>()
+    private val _productList = MutableStateFlow<State<DataResponse<HomeData>?>>(State.Loading)
+    val productList: StateFlow<State<DataResponse<HomeData>?>> = _productList
 
     init {
         getHomeData()
     }
-    private fun getHomeData(){
+
+    fun getHomeData(){
         viewModelScope.launch {
             repo.fetchHomeProducts().collect{
-
-                homeProducts.postValue(it)
+                _productList.value = it
             }
-            //val adapter = ProductAdapter(homeProducts.value, MainViewModel::class.java)
-
         }
-    }
-
-    override fun onClickItem(product: Product) {
-        TODO("Not yet implemented")
     }
 }

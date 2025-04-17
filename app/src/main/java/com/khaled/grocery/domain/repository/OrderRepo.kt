@@ -32,6 +32,20 @@ class OrderRepo @Inject constructor(
         }
     }
 
+    fun getOrderDetails(orderId: Int): Flow<State<DataResponse<OrderDetails>>> = flow {
+        emit(State.Loading)
+        try {
+            val response = apiService.getOrderDetails(orderId)
+            if (response.isSuccessful) {
+                emit(State.Success(response.body()!!))
+            } else {
+                emit(State.Fail(response.body()?.message.toString()))
+            }
+        } catch (e: Exception) {
+            emit(State.Fail(e.message ?: "Unknown error"))
+        }
+    }
+
     fun confirmOrder(placeOrderItem: PlaceOrderItem): Flow<State<DataResponse<OrderDetails>>> = flow {
         emit(State.Loading)
         try {

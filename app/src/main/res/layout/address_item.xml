@@ -23,7 +23,9 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="@{item.name}"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/address_city"

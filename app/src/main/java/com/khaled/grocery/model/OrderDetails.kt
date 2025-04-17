@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class OrderDetails(
     @SerializedName("id")
-    val id: Int,
+    val orderId: Int,
 
     @SerializedName("cost")
     val cost: Double,
@@ -31,8 +31,17 @@ data class OrderDetails(
     val paymentMethod: String,
 
     @SerializedName("address")
-    val address: AddressData.Address? = AddressData.Address(0, "", "", "", "", null, 0.0, 0.0),
+    val address: AddressData.Address? = AddressData.Address(
+        0,
+        "",
+        "",
+        "",
+        "",
+        null,
+        0.0,
+        0.0,
+        false,),
 
     @SerializedName("products")
-    val products: List<Product> = emptyList()
+    val products: List<OrderProductItem> = emptyList()
 )

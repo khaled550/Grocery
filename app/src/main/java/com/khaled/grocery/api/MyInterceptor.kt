@@ -25,7 +25,7 @@ class MyInterceptor @Inject constructor(
         val request = chain.request()
             .newBuilder()
             .addHeader("Content-Type", "application/json")
-            .addHeader("lang", "ar")
+            .addHeader("lang", "en")
             .apply {
                 if (authToken.isNotEmpty()) {
                     addHeader("Authorization", authToken)

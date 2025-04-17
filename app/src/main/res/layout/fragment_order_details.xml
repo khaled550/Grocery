@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:id="@+id/orderDetailsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Order Summary -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/orderNumberText"
+                    android:text="Order #12345"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/orderStatusText"
+                    android:text="Delivered"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Address -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delivery_address"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addressText"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Items -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/items"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/itemsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Payment Summary -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/payment_summary"
+                    android:textStyle="bold" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <!-- Payment Method -->
+                    <TextView
+                        android:id="@+id/paymentMethodLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/payment_method"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/paymentMethodText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBaseline_toBaselineOf="@id/paymentMethodLabel"
+                        app:layout_constraintStart_toEndOf="@id/paymentMethodLabel"
+                        android:layout_marginStart="8dp" />
+
+                    <TextView
+                        android:id="@+id/costLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cost"
+                        app:layout_constraintTop_toBottomOf="@id/paymentMethodLabel"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:id="@+id/costText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBaseline_toBaselineOf="@id/costLabel"
+                        app:layout_constraintStart_toEndOf="@id/costLabel"
+                        android:layout_marginStart="8dp" />
+
+                    <TextView
+                        android:id="@+id/vatLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vat"
+                        app:layout_constraintTop_toBottomOf="@id/costLabel"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:id="@+id/vatText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBaseline_toBaselineOf="@id/vatLabel"
+                        app:layout_constraintStart_toEndOf="@id/vatLabel"
+                        android:layout_marginStart="8dp" />
+
+                    <TextView
+                        android:id="@+id/discountLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/discount"
+                        app:layout_constraintTop_toBottomOf="@id/vatLabel"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:id="@+id/discountText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBaseline_toBaselineOf="@id/discountLabel"
+                        app:layout_constraintStart_toEndOf="@id/discountLabel"
+                        android:layout_marginStart="8dp" />
+
+                    <TextView
+                        android:id="@+id/totalLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@id/discountLabel"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="12dp" />
+
+                    <TextView
+                        android:id="@+id/totalText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        app:layout_constraintBaseline_toBaselineOf="@id/totalLabel"
+                        app:layout_constraintStart_toEndOf="@id/totalLabel"
+                        android:layout_marginStart="8dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+        </FrameLayout>
+    </ScrollView>
+
+</layout>

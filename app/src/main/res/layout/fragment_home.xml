@@ -12,9 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
-        tools:context=".ui.MainActivity">
-
+        android:padding="8dp">
 
         <!--<TextView
             android:id="@+id/userNameText"
@@ -27,13 +25,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />-->
 
-        <EditText
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/searchEdit"
             android:layout_width="350dp"
             android:layout_height="60dp"
+            android:autofillHints="search"
             android:hint="@string/search"
             android:maxLines="1"
             android:inputType="text"
+            android:background="@drawable/input_background"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -67,6 +67,8 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
+            android:clipToPadding="false"
+            android:paddingBottom="85dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newArrivalTxt">

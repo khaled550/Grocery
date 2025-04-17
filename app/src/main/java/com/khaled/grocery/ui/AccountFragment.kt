@@ -1,7 +1,6 @@
 package com.khaled.grocery.ui
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,7 +15,6 @@ import com.khaled.grocery.model.State
 import com.khaled.grocery.ui.view_model.AccountViewModel
 import com.khaled.grocery.ui.view_model.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class AccountFragment : Fragment() {
@@ -96,7 +94,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun navigateToLogin() {
-        val intent = Intent(requireContext(), LoginActivity::class.java)
+        val intent = Intent(requireContext(), AuthActivity::class.java)
         startActivity(intent)
         requireActivity().finish()
     }

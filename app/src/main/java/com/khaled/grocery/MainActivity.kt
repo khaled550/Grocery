@@ -14,21 +14,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val mainViewModel: MainViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        //binding.viewModel = mainViewModel
-        setup()
-    }
 
-    private fun setup() {
-        mainViewModel.homeProducts.observe(this) {
-            if (it is State.Loading)
-                Log.d("getHomeData: ", "Loading...")
-            if (it is State.Success)
-                Log.d("getHomeData: ", it.data?.data?.products?.size.toString())
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+
     }
 }

@@ -73,7 +73,7 @@ class AddressViewModel @Inject constructor(
         defaultAddressId.value = value
         viewModelScope.launch {
             userPreferences.saveDefaultAddress(value)
-            loadDefaultAddress()
+            Log.i("AddressViewModel", "Default address ID saved: $value")
         }
     }
 }

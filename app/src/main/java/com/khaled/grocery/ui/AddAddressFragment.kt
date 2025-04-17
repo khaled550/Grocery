@@ -1,6 +1,5 @@
 package com.khaled.grocery.ui
 
-import android.adservices.adid.AdId
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -17,7 +16,9 @@ import com.khaled.grocery.R
 import com.khaled.grocery.databinding.FragmentAddAddressBinding
 import com.khaled.grocery.model.AddressData.Address
 import com.khaled.grocery.ui.view_model.AddressViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddAddressFragment : Fragment() {
 
     private lateinit var binding: FragmentAddAddressBinding
@@ -41,26 +42,31 @@ class AddAddressFragment : Fragment() {
         val args: AddAddressFragmentArgs by navArgs()
         if (args.addressId != 0) {
             val updatedAddress =
-                viewModel.addresses.value.toData()?.data?.addresses?.get(0)
-            Log.d("setupAddUpdateAddress", viewModel.addresses.value.toData()?.data?.addresses?.size.toString())
-            Log.d("setupAddUpdateAddress", "$updatedAddress")
+                viewModel.addresses.value.toData()?.data?.addresses?.find { it.id == args.addressId }
+            Log.d("setupUpdateAddress", viewModel.addresses.value.toData()?.data?.addresses?.size.toString())
+            Log.d("setupUpdateAddress", "$updatedAddress")
             binding.etName.text =
-                Editable.Factory.getInstance().newEditable(updatedAddress?.name.toString())
+                Editable.Factory.getInstance().newEditable(updatedAddress?.name ?: "")
             binding.etCity.text =
-                Editable.Factory.getInstance().newEditable(updatedAddress?.city.toString())
+                Editable.Factory.getInstance().newEditable(updatedAddress?.city ?: "")
             binding.etRegion.text =
-                Editable.Factory.getInstance().newEditable(updatedAddress?.region.toString())
+                Editable.Factory.getInstance().newEditable(updatedAddress?.region ?: "")
             binding.etDetails.text =
-                Editable.Factory.getInstance().newEditable(updatedAddress?.details.toString())
+                Editable.Factory.getInstance().newEditable(updatedAddress?.details ?: "")
+            binding.etNotes.text =
+                Editable.Factory.getInstance().newEditable(updatedAddress!!.notes ?: "")
             binding.btnAddAddress.text = getString(R.string.update_address)
             binding.btnAddAddress.setOnClickListener {
-                updateAddress(updatedAddress!!)
+                updateAddress(updatedAddress)
                 binding.checkboxDefaultAddress.setOnCheckedChangeListener { _, checked ->
                     if (checked) {
                         viewModel.setDefaultAddress(updatedAddress.id!!)
                     }
                 }
             }
+
+            binding.checkboxDefaultAddress.isChecked = updatedAddress.id == viewModel.defaultAddressId.value
+            Log.i("TAG", "updatedAddress.isDefault: ${updatedAddress.isDefault}")
         } else {
             binding.btnAddAddress.text = getString(R.string.add_address)
             binding.btnAddAddress.setOnClickListener {
@@ -80,6 +86,7 @@ class AddAddressFragment : Fragment() {
                 notes = binding.etNotes.text.toString(),
                 longitude = 0.0,
                 latitude = 0.0,
+                isDefault = binding.checkboxDefaultAddress.isChecked
             )
 
             viewModel.addAddress(address){
@@ -90,6 +97,29 @@ class AddAddressFragment : Fragment() {
                 }
                 Toast.makeText(requireContext(),
                     getString(R.string.address_added_successfully), Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }
+        }
+    }
+
+    private fun updateAddress(address: Address) {
+        if (isValidInput()) {
+            binding.progressBar.visibility = View.VISIBLE
+            val updatedAddress = address.copy(
+                name = binding.etName.text.toString(),
+                city = binding.etCity.text.toString(),
+                region = binding.etRegion.text.toString(),
+                details = binding.etDetails.text.toString(),
+                notes = binding.etNotes.text.toString(),
+                isDefault = binding.checkboxDefaultAddress.isChecked
+            )
+            Log.i("TAG", "updatedAddress.isDefault: ${updatedAddress.isDefault}")
+            if (binding.checkboxDefaultAddress.isChecked) {
+                viewModel.setDefaultAddress(updatedAddress.id!!)
+            }
+            viewModel.updateAddress(updatedAddress) {
+                binding.progressBar.visibility = View.GONE
+                Toast.makeText(requireContext(), "Address updated successfully", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
             }
         }
@@ -121,24 +151,4 @@ class AddAddressFragment : Fragment() {
             else -> true
         }
     }
-
-    private fun updateAddress(address: Address) {
-        if (isValidInput()) {
-            binding.progressBar.visibility = View.VISIBLE
-            address.copy(
-                name = binding.etName.text.toString(),
-                city = binding.etCity.text.toString(),
-                region = binding.etRegion.text.toString(),
-                details = binding.etDetails.text.toString(),
-                notes = binding.etNotes.text.toString()
-            )
-
-            viewModel.updateAddress(address) {
-                binding.progressBar.visibility = View.GONE
-                Toast.makeText(requireContext(), "Address updated successfully", Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
-            }
-        }
-    }
-
 }

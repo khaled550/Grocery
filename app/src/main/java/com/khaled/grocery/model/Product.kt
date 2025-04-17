@@ -15,7 +15,7 @@ data class Product(
     @SerializedName("images")
     val images: List<String?>? = null,
     @SerializedName("in_cart")
-    val inCart: Boolean? = null,
+    var inCart: Boolean? = null,
     @SerializedName("in_favorites")
     val inFavorites: Boolean? = null,
     @SerializedName("name")

@@ -3,11 +3,12 @@ package com.khaled.grocery.di
 import com.khaled.grocery.api.ApiService
 import com.khaled.grocery.domain.repository.AccountRepo
 import com.khaled.grocery.domain.repository.AddressRepo
+import com.khaled.grocery.domain.repository.AuthRepo
 import com.khaled.grocery.domain.repository.CartRepo
 import com.khaled.grocery.domain.repository.DetailsRepo
 import com.khaled.grocery.domain.repository.MainRepo
-import com.khaled.grocery.domain.repository.LoginRepo
 import com.khaled.grocery.domain.repository.OrderRepo
+import com.khaled.grocery.utils.UserPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,8 +24,8 @@ object RepoModule {
     }
 
     @Provides
-    fun provideLoginRepo(): LoginRepo {
-        return LoginRepo()
+    fun provideAuthRepo(apiService: ApiService): AuthRepo {
+        return AuthRepo(apiService)
     }
 
     @Provides
@@ -48,7 +49,7 @@ object RepoModule {
     }
 
     @Provides
-    fun provideAddressRepo(apiService: ApiService): AddressRepo {
-        return AddressRepo(apiService)
+    fun provideAddressRepo(apiService: ApiService, userPreferences: UserPreferences): AddressRepo {
+        return AddressRepo(apiService, userPreferences)
     }
 }

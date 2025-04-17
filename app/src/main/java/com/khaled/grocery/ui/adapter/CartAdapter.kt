@@ -37,6 +37,7 @@ class CartAdapter(private val onUpdate: (CartItem, () -> Unit) -> Unit,
             binding.addBtn.isEnabled = !isUpdating
             binding.removeBtn.isEnabled = !isUpdating
             binding.quantityText.text = item.quantity.toString()
+            binding.productPrice.text = String.format("$%,.0f", (item.quantity?.times(item.product?.price!!))!!.times(item.quantity!!))
             Glide.with(binding.productImg.context)
                 .load(item.product?.image!!)
                 .placeholder(R.drawable.product_placeholder)

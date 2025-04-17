@@ -13,6 +13,24 @@ import com.khaled.grocery.model.Product
 class ProductAdapter(private val listener: ProductTouchListener)
     : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
+    private var fullList: List<Product> = emptyList()
+
+    fun setFullList(products: List<Product>) {
+        fullList = products
+        submitList(products)
+    }
+
+    fun filter(query: String) {
+        if (query.isBlank()) {
+            submitList(fullList)
+        } else {
+            val filteredList = fullList.filter {
+                it.name!!.contains(query, ignoreCase = true)
+            }
+            submitList(filteredList)
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductAdapter.ProductViewHolder {
         val binding = ProductItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ProductViewHolder(binding)
@@ -36,6 +54,7 @@ class ProductAdapter(private val listener: ProductTouchListener)
                 .transform(RoundedCorners(24))
                 .into(binding.productImg)
             binding.executePendingBindings()
+            binding.productPrice.text = String.format("$%,.0f", item.price)
         }
     }
 }

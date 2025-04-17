@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.khaled.grocery.R
 import com.khaled.grocery.databinding.FragmentCartBinding
 import com.khaled.grocery.model.State
@@ -82,7 +81,7 @@ class CartFragment : Fragment() {
                 is State.Fail -> {
                     binding.progressBar.visibility = View.GONE
                     binding.emptyCartLayout.visibility = View.VISIBLE
-                    Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }

@@ -12,26 +12,26 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="150dp"
-        android:layout_height="220dp"
-        android:layout_margin="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="4dp"
         android:elevation="20dp"
         app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_margin="4dp"
+            android:layout_gravity="center">
 
             <ImageView
                 android:id="@+id/productImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-
                 android:src="@drawable/fruit_icon" />
 
             <TextView
@@ -41,12 +41,25 @@
                 android:layout_marginTop="10dp"
                 android:text="@{item.name}"
                 android:textSize="14sp"
-                android:fontFamily="@font/gordita_regular"
                 android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/productImg"/>
+
+            <TextView
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="16sp"
+                android:text="50 AED"
+                app:layout_constraintTop_toBottomOf="@+id/productNameText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

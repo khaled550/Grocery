@@ -12,13 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.khaled.grocery.R
 import com.khaled.grocery.databinding.FragmentCheckoutBinding
-import com.khaled.grocery.model.PlaceOrderItem
 import com.khaled.grocery.model.State
-import com.khaled.grocery.ui.adapter.CartAdapter
 import com.khaled.grocery.ui.adapter.CheckoutCartAdapter
-import com.khaled.grocery.ui.view_model.CartViewModel
 import com.khaled.grocery.ui.view_model.CheckoutViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,8 +25,6 @@ class CheckoutFragment @Inject constructor() : Fragment() {
     private lateinit var binding: FragmentCheckoutBinding
     private val viewModel: CheckoutViewModel by activityViewModels()
     private val checkoutCartAdapter = CheckoutCartAdapter()
-
-    private lateinit var placeOrderItem : PlaceOrderItem
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,15 +35,65 @@ class CheckoutFragment @Inject constructor() : Fragment() {
         (activity as MainActivity).supportActionBar?.title = getString(R.string.checkout)
 
         placeOrder()
-
-        setupRecyclerView()
+        observeCartItems()
 
         return binding.root
     }
 
+    private fun observeCartItems() {
+        setupRecyclerView()
+        viewLifecycleOwner.lifecycleScope.launch{
+            viewModel.cartData.combine(viewModel.address){
+                cartState, addressState ->
+                Pair(cartState, addressState)
+            }.collectLatest { (cartState, addressState) ->
+                when (cartState) {
+                    is State.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is State.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        if (!cartState.data.data?.cartItems.isNullOrEmpty()) {
+                            checkoutCartAdapter.submitList(cartState.data.data?.cartItems)
+                        }
+                    }
+                    is State.Fail -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(requireContext(), cartState.message, Toast.LENGTH_SHORT).show()
+                        findNavController().popBackStack()
+                    }
+                }
+
+                when (addressState) {
+                    is State.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is State.Success -> {
+                        binding.addressText.text = viewModel.address.value.toData()?.name
+                    }
+                    is State.Fail -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(requireContext(), addressState.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
     private fun placeOrder() {
         binding.btnCheckout.setOnClickListener {
-            viewModel.checkout()
+            binding.paymentMethodGroup.id = when (binding.paymentMethodGroup.checkedRadioButtonId) {
+                R.id.cash -> 1
+                R.id.online -> 2
+                else -> 0
+            }
+            val paymentMethod = binding.paymentMethodGroup.id
+            if (paymentMethod == 0) {
+                Toast.makeText(requireContext(),
+                    getString(R.string.select_payment_method), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            viewModel.checkout(paymentMethod)
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.checkoutState.collectLatest { state ->
                     when (state) {
@@ -55,14 +101,18 @@ class CheckoutFragment @Inject constructor() : Fragment() {
                             binding.progressBar.visibility = View.VISIBLE
                         }
                         is State.Success -> {
+
                             binding.progressBar.visibility = View.GONE
-                            Toast.makeText(requireContext(),
-                                getString(R.string.order_placed_successfully), Toast.LENGTH_SHORT).show()
-                            findNavController().navigate(R.id.action_checkoutFragment_to_cartFragment)
+                            if (state.data.status!!) {
+                                Toast.makeText(requireContext(), state.data.message, Toast.LENGTH_SHORT).show()
+                                findNavController().popBackStack()
+                            } else {
+                                Toast.makeText(requireContext(), state.data.message, Toast.LENGTH_SHORT).show()
+                            }
                         }
                         is State.Fail -> {
                             binding.progressBar.visibility = View.GONE
-                            Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -74,7 +124,7 @@ class CheckoutFragment @Inject constructor() : Fragment() {
         binding.cartItemsRecycler.apply {
             adapter = checkoutCartAdapter
             layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
         }
-        //checkoutCartAdapter.submitList(cartViewModel.cartState.value?.toData()?.data?.cartItems)
     }
 }

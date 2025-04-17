@@ -1,5 +1,7 @@
 package com.khaled.grocery.api
 
+import LoginRequest
+import SignUpRequest
 import User
 import com.khaled.grocery.model.AddCartItem
 import com.khaled.grocery.model.AddressData.Address
@@ -9,13 +11,10 @@ import com.khaled.grocery.model.CartItem
 import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.FavData
 import com.khaled.grocery.model.HomeData
-import com.khaled.grocery.model.LoginRequest
-import com.khaled.grocery.model.LoginResponse
 import com.khaled.grocery.model.OrderSummaryData
 import com.khaled.grocery.model.OrderDetails
 import com.khaled.grocery.model.PlaceOrderItem
 import com.khaled.grocery.model.Product
-import com.khaled.grocery.model.State
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -53,11 +52,14 @@ interface ApiService {
     @GET("orders")
     suspend fun fetchOrdersData(): Response<DataResponse<OrderSummaryData>>
 
-    //@GET("orders/{id}")
-
     @POST("orders")
     suspend fun placeOrder(
         @Body placeOrderItem: PlaceOrderItem
+    ): Response<DataResponse<OrderDetails>>
+
+    @GET("orders/{id}")
+    suspend fun getOrderDetails(
+        @Path("id") orderId: Int
     ): Response<DataResponse<OrderDetails>>
 
     // favorites section
@@ -65,13 +67,13 @@ interface ApiService {
     suspend fun getFavData() : Response<DataResponse<FavData>>
 
     @POST("login")
-    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+    suspend fun login(@Body request: LoginRequest): Response<DataResponse<User>>
 
     @GET("products/{id}")
     suspend fun getProductDetails(@Path("id") productId: Int): Response<DataResponse<Product>>
 
     @POST("register")
-    suspend fun registerUser() : Response<DataResponse<User>>
+    suspend fun registerUser(@Body signUpRequest: SignUpRequest) : Response<DataResponse<User>>
 
     @GET("profile")
     suspend fun getUserData(): Response<DataResponse<User>>

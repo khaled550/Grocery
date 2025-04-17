@@ -32,38 +32,39 @@
 
             <TextView
                 android:id="@+id/productNameText"
-                android:layout_width="50sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="@{item.product.name}"
                 android:textSize="14sp"
-                android:fontFamily="@font/gordita_regular"
                 android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintTop_toTopOf="@+id/productImg"
                 app:layout_constraintStart_toEndOf="@+id/productImg"/>
 
             <TextView
-                android:id="@+id/productPriceText"
-                android:layout_width="50sp"
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@{item.product.price.toString()}"
-                android:textSize="14sp"
-                android:fontFamily="@font/gordita_light"
+                android:text="50 AED"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="16sp"
                 android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="@+id/productImg"
-                app:layout_constraintStart_toEndOf="@+id/productImg"/>
+                app:layout_constraintStart_toStartOf="@+id/productNameText"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/quantityLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="50sp"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/productImg">
+                app:layout_constraintBottom_toBottomOf="@id/productImg">
 
                 <ImageButton
                     android:id="@+id/addBtn"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:background="@drawable/icons_plus"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -71,8 +72,8 @@
 
                 <TextView
                     android:id="@+id/quantityText"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     app:layout_constraintStart_toEndOf="@+id/addBtn"
                     app:layout_constraintEnd_toStartOf="@+id/removeBtn"
                     app:layout_constraintTop_toTopOf="parent"
@@ -86,8 +87,8 @@
 
                 <ImageButton
                     android:id="@+id/removeBtn"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:background="@drawable/icons_minus"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

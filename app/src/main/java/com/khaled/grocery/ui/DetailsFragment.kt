@@ -1,13 +1,15 @@
 package com.khaled.grocery.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -17,6 +19,8 @@ import com.khaled.grocery.model.DataResponse
 import com.khaled.grocery.model.Product
 import com.khaled.grocery.model.State
 import com.khaled.grocery.ui.view_model.DetailsViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class DetailsFragment : Fragment() {
 
@@ -35,17 +39,22 @@ class DetailsFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.executePendingBindings()
 
-        loadProductDetails()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadProductDetails()
+        setUpAddToCartBtn()
     }
 
     private fun loadProductDetails() {
         val productId = args.itemId
         viewModel.getProductDetails(productId)
-        viewModel.productDetails.observe(viewLifecycleOwner) { state ->
-            //viewModel.checkCartItem()
-            updateUI(state)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.productDetails.collect { state ->
+                updateUI(state)
+            }
         }
     }
 
@@ -58,20 +67,20 @@ class DetailsFragment : Fragment() {
                 binding.addToCartButton.isEnabled = false
             }
             is State.Success -> {
+                binding.progressBar.visibility = View.GONE
                 binding.addToCartButton.visibility = View.VISIBLE
                 binding.addToCartButton.isEnabled = true
+                val inCart = state.data?.data?.inCart == true
+                binding.addToCartButton.text = getString(
+                    if (inCart) R.string.remove_cart_item else R.string.add_to_cart)
                 // Update UI with product details
                 val product = state.data?.data
                 showData(product)
-                setUpAddToCartBtn()
-                checkCartItem()
             }
-
             is State.Fail -> {
-                // Handle error
-                //checkCartItem()
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+                binding.addToCartButton.isEnabled = true
+                Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
             }
         }
         }
@@ -92,19 +101,26 @@ class DetailsFragment : Fragment() {
     private fun setUpAddToCartBtn(){
         val productId = args.itemId
         binding.addToCartButton.setOnClickListener {
-            viewModel.addOrRemoveCartItem(productId) {
-                // Handle completion
-                loadProductDetails()
+            viewModel.toggleCartBtn(productId)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.cartResponse.collectLatest { state ->
+                    when (state) {
+                        is State.Loading -> {
+                            binding.addToCartButton.isEnabled = false
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+                        is State.Success -> {
+                            binding.addToCartButton.isEnabled = true
+                            binding.progressBar.visibility = View.GONE
+                        }
+                        is State.Fail -> {
+                            binding.addToCartButton.isEnabled = true
+                            binding.progressBar.visibility = View.GONE
+                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
-        }
-    }
-
-    private fun checkCartItem() {
-        val isInCart = viewModel.checkCartItem()
-        if (isInCart) {
-            binding.addToCartButton.text = getString(R.string.remove_cart_item)
-        } else {
-            binding.addToCartButton.text = getString(R.string.add_to_cart)
         }
     }
 }

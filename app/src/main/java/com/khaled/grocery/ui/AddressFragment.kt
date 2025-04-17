@@ -27,6 +27,7 @@ import com.khaled.grocery.ui.adapter.AddressAdapter
 import com.khaled.grocery.ui.adapter.OrderAdapter
 import com.khaled.grocery.ui.view_model.AddressViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AddressFragment : Fragment() {
@@ -52,7 +53,6 @@ class AddressFragment : Fragment() {
     }
 
     private fun setupMenu() {
-        // Use MenuHost (Activity or Fragment) and add a MenuProvider
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -74,7 +74,7 @@ class AddressFragment : Fragment() {
     }
 
     private fun observeAddresses() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.addresses.collect { state ->
                 when (state) {
                     is State.Loading -> {
@@ -119,12 +119,12 @@ class AddressFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.delete_address))
             .setMessage(getString(R.string.delete_confirm))
-            .setPositiveButton("Yes") { _, _ ->
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
                 viewModel.deleteAddress(addressId) {
                     viewModel.loadAddresses()
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 

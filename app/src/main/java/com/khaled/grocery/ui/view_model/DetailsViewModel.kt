@@ -22,9 +22,8 @@ class DetailsViewModel @Inject constructor(
     private val repository: DetailsRepo
 ) : ViewModel() {
 
-    // LiveData to hold product details
-    private val _productDetails = MutableLiveData<State<DataResponse<Product>?>>()
-    val productDetails: MutableLiveData<State<DataResponse<Product>?>> = _productDetails
+    private val _productDetails = MutableStateFlow<State<DataResponse<Product>?>>(State.Loading)
+    val productDetails: StateFlow<State<DataResponse<Product>?>> = _productDetails
 
     private val _cartResponse = MutableStateFlow<State<DataResponse<AddCartItem>>>(State.Loading)
     val cartResponse: StateFlow<State<DataResponse<AddCartItem>>> = _cartResponse
@@ -40,8 +39,7 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    fun addOrRemoveCartItem(itemId: Int, onComplete: () -> Unit) {
-
+    private fun addOrRemoveCartItem(itemId: Int) {
         Log.i("addOrRemoveCartItem", "adding")
         viewModelScope.launch {
             repository.addOrRemoveCartItem(itemId)
@@ -50,28 +48,22 @@ class DetailsViewModel @Inject constructor(
                 }
                 .collect { response ->
                     _cartResponse.value = response
+                    Log.i("addOrRemoveCartItem", "response: ${response.toData()?.data}")
                 }
         }
-        onComplete() // Re-enable UI buttons
     }
 
-    /*fun removeCartItem(itemId: Int, onComplete: () -> Unit) {
-        Log.i("addOrRemoveCartItem", "removing")
-        viewModelScope.launch {
-            repository.addCartItem(itemId).collectLatest { result ->
-                if (result is State.Success) {
-                    getProductDetails(itemId) // Refresh product details after adding/removing
-                } else
-                    onComplete() // Re-enable UI buttons
-            }
+    fun toggleCartBtn(itemId: Int) {
+        // Check if the item is already in the cart
+        val isInCart = _productDetails.value is State.Success && (_productDetails.value as State.Success).data?.data?.inCart == true
+        // Toggle the cart item
+        addOrRemoveCartItem(itemId)
+        // Update the UI state
+        _productDetails.value = if (isInCart) {
+            State.Success(DataResponse(data = _productDetails.value.toData()?.data?.copy(inCart = false)))
+        } else {
+            State.Success(DataResponse(data = _productDetails.value.toData()?.data?.copy(inCart = true)))
         }
-    }*/
-
-    fun checkCartItem(): Boolean {
-        // Check if the product is already in the cart
-        if (productDetails.value != null) {
-            return productDetails.value?.toData()?.data?.inCart!!
-        }
-        return false
+        Log.i("toggleCartBtn", "isInCart: $isInCart, itemId: $itemId")
     }
 }

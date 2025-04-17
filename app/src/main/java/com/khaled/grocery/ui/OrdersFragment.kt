@@ -9,17 +9,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.khaled.grocery.R
 import com.khaled.grocery.databinding.FragmentOrderBinding
 import com.khaled.grocery.model.State
 import com.khaled.grocery.ui.adapter.OrderAdapter
+import com.khaled.grocery.ui.adapter.OrderTouchListener
 import com.khaled.grocery.ui.view_model.OrderViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class OrdersFragment : Fragment() {
+class OrdersFragment : Fragment(), OrderTouchListener {
 
     private lateinit var binding: FragmentOrderBinding
 
@@ -49,14 +51,21 @@ class OrdersFragment : Fragment() {
                     }
                     is State.Success -> {
                         // Update UI with addresses
-                        binding.progressBar.visibility = View.GONE
-                        val orders = state.data.data?.orderSummaryItems
-                        Log.i("OrdersFragment", "orders: $orders")
-                        orderAdapter.submitList(orders)
+                        if (state.data.data?.orderSummaryItems!!.isEmpty()) {
+                            binding.noOrdersLayout.visibility = View.VISIBLE
+                            binding.recyclerView.visibility = View.GONE
+                            binding.progressBar.visibility = View.GONE
+                        } else {
+                            binding.progressBar.visibility = View.GONE
+                            val orders = state.data.data.orderSummaryItems
+                            orderAdapter.submitList(orders)
+                            Log.i("OrdersFragment", "orders: $orders")
+                        }
                     }
                     is State.Fail -> {
                         // Handle error
                         binding.progressBar.visibility = View.GONE
+                        binding.noOrdersLayout.visibility = View.VISIBLE
                     }
                 }
             }
@@ -64,7 +73,7 @@ class OrdersFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        orderAdapter = OrderAdapter()
+        orderAdapter = OrderAdapter(this)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = orderAdapter
@@ -79,5 +88,10 @@ class OrdersFragment : Fragment() {
         super.onResume()
         //(activity as AppCompatActivity).supportActionBar?.title = getString(R.string.my_orders)
         viewModel.getAllOrders()
+    }
+
+    override fun onClickItem(orderId: Int) {
+        val action = OrdersFragmentDirections.actionOrderFragmentToOrderDetailsFragment(orderId)
+        findNavController().navigate(action)
     }
 }

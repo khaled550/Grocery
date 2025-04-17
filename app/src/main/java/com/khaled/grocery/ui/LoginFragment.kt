@@ -1,41 +1,44 @@
 package com.khaled.grocery.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.khaled.grocery.databinding.ActivityLoginBinding
+import androidx.navigation.fragment.findNavController
+import com.khaled.grocery.R
+import com.khaled.grocery.databinding.FragmentLoginBinding
 import com.khaled.grocery.model.State
 import com.khaled.grocery.ui.view_model.AuthViewModel
-import com.khaled.grocery.utils.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
-
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class LoginFragment : Fragment(){
 
-    private lateinit var binding: ActivityLoginBinding
-    private val authViewModel: AuthViewModel by viewModels()
+    private lateinit var binding: FragmentLoginBinding
+    private val authViewModel: AuthViewModel by activityViewModels()
 
-    @Inject
-    lateinit var userPreferences: UserPreferences
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setupListeners()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupUI()
         observeLoginState()
         loadRememberedUser()
     }
 
-    private fun setupListeners() {
+    private fun setupUI() {
         binding.loginButton.setOnClickListener {
             val email = binding.email.text.toString().trim()
             val password = binding.password.text.toString().trim()
@@ -43,13 +46,17 @@ class LoginActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 authViewModel.login(email, password)
             } else {
-                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity,
+                    getString(R.string.enter_email_password), Toast.LENGTH_SHORT).show()
             }
+        }
+        binding.signupText.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
     }
 
     private fun observeLoginState() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             authViewModel.loginState.collect { result ->
                 when (result) {
                     is State.Loading -> {
@@ -57,12 +64,13 @@ class LoginActivity : AppCompatActivity() {
                     }
                     is State.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        Toast.makeText(this@LoginActivity, "Login Successful", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity,
+                            getString(R.string.login_successful), Toast.LENGTH_SHORT).show()
                         navigateToHome()
                     }
                     is State.Fail -> {
                         binding.progressBar.visibility = View.GONE
-                        Toast.makeText(this@LoginActivity, "Error: ${result.msg}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "Error: ${result.message}", Toast.LENGTH_SHORT).show()
                     }
                     null -> Unit
                 }
@@ -71,13 +79,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToHome() {
-        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-        finish()
+        startActivity(Intent(activity, MainActivity::class.java))
+        activity?.finish()
     }
 
     private fun loadRememberedUser() {
         lifecycleScope.launch {
-            userPreferences.authToken.collect { token ->
+            authViewModel.authToken.collect { token ->
                 if (!token.isNullOrEmpty()) {
                     navigateToHome()
                 }
@@ -85,3 +93,4 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
+

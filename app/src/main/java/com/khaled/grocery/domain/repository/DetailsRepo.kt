@@ -28,6 +28,7 @@ class DetailsRepo @Inject constructor(private val apiService: ApiService) {
     }
 
     fun addOrRemoveCartItem(itemId: Int): Flow<State<DataResponse<AddCartItem>>> = flow {
+        emit(State.Loading)
         try {
             val response = apiService.addCartItem(mapOf("product_id" to itemId))
             if (response.isSuccessful) {
