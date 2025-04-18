@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryLight">#BB86FC</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <!-- Primary -->
+    <color name="primary">#D0BCFF</color>
+    <color name="onPrimary">#381E72</color>
+
+    <!-- Secondary -->
+    <color name="secondary">#CCC2DC</color>
+    <color name="onSecondary">#332D41</color>
+
+    <!-- Background -->
+    <color name="background">#1C1B1F</color>
+    <color name="onBackground">#E6E1E5</color>
+
+    <!-- Surface -->
+    <color name="surface">#1C1B1F</color>
+    <color name="onSurface">#E6E1E5</color>
 
     <color name="edit_text_bg">@color/material_color_black</color>
 

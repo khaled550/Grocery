@@ -5,11 +5,69 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Grocery" parent="Base.Theme.Grocery" />
+    <!-- Application theme. -->
+    <style name="Theme.Grocery" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colors -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/onSecondary</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorOnBackground">@color/onBackground</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/onSurface</item>
 
-    <style name="Theme.MyApp" parent="Theme.Material3.DayNight">
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryLight</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="textAppearanceHeadlineMedium">@style/CustomTypography</item>
+        <item name="shapeAppearanceSmallComponent">@style/CustomSmallShape</item>
+        <item name="shapeAppearanceMediumComponent">@style/CustomMediumShape</item>
+        <item name="shapeAppearanceLargeComponent">@style/CustomLargeShape</item>
     </style>
+
+    <style name="CustomSmallShape" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="CustomMediumShape" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="CustomLargeShape" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSizeTopLeft">24dp</item>
+        <item name="cornerSizeTopRight">24dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <!-- Custom EditText Style -->
+    <style name="CustomEditText" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">?attr/colorSecondary</item>
+        <item name="hintTextColor">?attr/colorSecondary</item>
+        <item name="android:textColorHint">?attr/colorSecondary</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:backgroundTint">?attr/colorSecondary</item>
+        <item name="background">@drawable/input_background</item>
+    </style>
+    <!-- For the empty state card -->
+    <style name="ShapeAppearance.Material3.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent" tools:ignore="ResourceCycle">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <!-- For the empty cart image -->
+    <style name="ShapeAppearance.Material3.LargeComponent" parent="ShapeAppearance.Material3.LargeComponent" tools:ignore="ResourceCycle">
+        <item name="cornerSize">28dp</item>
+    </style>
+
+    <style name="ProgressBarTheme" parent="ThemeOverlay.Material3.Light">
+        <item name="colorPrimary">?attr/colorPrimary</item>
+    </style>
+
+    <style name="ShapeAppearance.Material3.MediumComponent.Top" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
 </resources>

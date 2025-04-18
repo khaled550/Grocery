@@ -4,7 +4,7 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:background="?attr/colorSurfaceVariant">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -22,35 +22,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible"
+                android:padding="16dp">
 
                 <!-- Order Summary -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/orderNumberText"
-                    android:text="Order #12345"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
+                    style="@style/TextAppearance.Material3.HeadlineSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Order #12345"
+                    android:textColor="?attr/colorOnSurface"/>
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/orderStatusText"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Delivered"
-                    android:textColor="@android:color/holo_green_dark"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="16dp" />
 
                 <!-- Address -->
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/delivery_address"
-                    android:textStyle="bold" />
-                <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addressText"
+                    style="@style/TextAppearance.Material3.BodyLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/addressText"
                     android:layout_marginBottom="16dp" />
 
                 <!-- Items -->
@@ -73,12 +79,138 @@
                     android:text="@string/payment_summary"
                     android:textStyle="bold" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!-- Payment Summary Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:cardElevation="2dp"
+                    app:cardCornerRadius="16dp"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <!-- Payment Method -->
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/paymentMethodLabel"
+                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment_method"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/paymentMethodText"
+                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            app:layout_constraintBaseline_toBaselineOf="@id/paymentMethodLabel"
+                            app:layout_constraintStart_toEndOf="@id/paymentMethodLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginStart="8dp" />
+
+                        <!-- Cost -->
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/costLabel"
+                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cost"
+                            app:layout_constraintTop_toBottomOf="@id/paymentMethodLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="8dp" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/costText"
+                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            app:layout_constraintBaseline_toBaselineOf="@id/costLabel"
+                            app:layout_constraintStart_toEndOf="@id/costLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginStart="8dp" />
+
+                        <!-- VAT -->
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/vatLabel"
+                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/vat"
+                            app:layout_constraintTop_toBottomOf="@id/costLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="8dp" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/vatText"
+                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            app:layout_constraintBaseline_toBaselineOf="@id/vatLabel"
+                            app:layout_constraintStart_toEndOf="@id/vatLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginStart="8dp" />
+
+                        <!-- Discount (previously missing) -->
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/discountLabel"
+                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/discount"
+                            app:layout_constraintTop_toBottomOf="@id/vatLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="8dp" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/discountText"
+                            style="@style/TextAppearance.Material3.BodyMedium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorPrimary"
+                            app:layout_constraintBaseline_toBaselineOf="@id/discountLabel"
+                            app:layout_constraintStart_toEndOf="@id/discountLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginStart="8dp" />
+
+                        <!-- Total -->
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/totalLabel"
+                            style="@style/TextAppearance.Material3.TitleMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total"
+                            app:layout_constraintTop_toBottomOf="@id/discountLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="12dp" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/totalText"
+                            style="@style/TextAppearance.Material3.TitleMedium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorPrimary"
+                            app:layout_constraintBaseline_toBaselineOf="@id/totalLabel"
+                            app:layout_constraintStart_toEndOf="@id/totalLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginStart="8dp" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--<androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
 
-                    <!-- Payment Method -->
+                    &lt;!&ndash; Payment Method &ndash;&gt;
                     <TextView
                         android:id="@+id/paymentMethodLabel"
                         android:layout_width="wrap_content"
@@ -167,7 +299,7 @@
                         app:layout_constraintStart_toEndOf="@id/totalLabel"
                         android:layout_marginStart="8dp" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
             </LinearLayout>

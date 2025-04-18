@@ -63,33 +63,37 @@
             app:layout_constraintTop_toBottomOf="@id/email"
             android:layout_marginTop="16dp"/>
 
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/rememberMeCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/remember_me"
+            style="@style/Widget.Material3.CompoundButton.CheckBox"
+            app:useMaterialThemeColors="true"
             app:layout_constraintStart_toStartOf="@+id/password"
             app:layout_constraintTop_toBottomOf="@id/password"/>
 
         <!-- Forgot Password -->
-        <TextView
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/forgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/forgot_password"
-            android:textColor="@android:color/holo_orange_dark"
             app:layout_constraintEnd_toEndOf="@id/password"
             app:layout_constraintTop_toBottomOf="@id/password"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:textColor="?attr/colorOnBackground"/>
 
         <!-- Login Button -->
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/login"
-            android:backgroundTint="@android:color/holo_orange_dark"
-            android:textColor="@android:color/white"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/forgotPassword"
@@ -106,16 +110,16 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <!-- Signup Text -->
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/signupText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_account"
-            android:textColor="@android:color/holo_orange_dark"
             app:layout_constraintTop_toBottomOf="@id/progressBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:textColor="?attr/colorOnBackground"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

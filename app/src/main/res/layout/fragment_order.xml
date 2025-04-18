@@ -2,47 +2,78 @@
 <layout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ordersRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="?attr/colorSurface">
 
+        <!-- Orders RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            android:paddingBottom="16dp" />
 
+        <!-- Loading Indicator -->
         <ProgressBar
             android:id="@+id/progressBar"
+            style="?attr/android:progressBarStyleLarge"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
-        <!-- No Orders View -->
-        <LinearLayout
+        <!-- Empty State View -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/noOrdersLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_marginTop="32dp"
+            android:visibility="gone"
+            app:cardElevation="0dp"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.MediumComponent"
+            app:strokeColor="?attr/colorOutline"
+            app:strokeWidth="1dp">
 
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/ic_empty_cart" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/no_orders_yet"
-                android:textSize="18sp"
-                android:textColor="@color/material_color_green_primary_dark"
-                android:layout_marginTop="12dp"/>
-        </LinearLayout>
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="32dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_empty_cart"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.LargeComponent"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/no_orders_yet"
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:text="@string/start_shopping"
+                    app:icon="@drawable/ic_cart"
+                    app:iconTint="?attr/colorPrimary" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 
 </layout>

@@ -10,14 +10,14 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:background="?attr/android:colorBackground">
 
             <!-- User Profile Section -->
             <ImageView
@@ -26,7 +26,6 @@
                 android:layout_height="80dp"
                 android:src="@drawable/ic_account_circle"
                 android:scaleType="centerCrop"
-                android:background="@color/material_color_white"
                 android:padding="8dp"
                 android:layout_marginTop="24dp" />
 
@@ -98,24 +97,21 @@
                             android:id="@+id/icon"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_orders"
-                            app:tint="@color/material_color_black" />
+                            android:src="@drawable/ic_orders" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/title"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="@string/my_orders"
-                            android:textSize="16sp"
-                            android:textColor="@color/material_color_black" />
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/material_color_grey_primary" />
+                            android:src="@drawable/ic_arrow_right"/>
                     </LinearLayout>
 
                     <!-- Addresses -->
@@ -133,23 +129,20 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_location"
-                            app:tint="@color/material_color_black" />
+                            android:src="@drawable/ic_location"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="@string/my_addresses"
-                            android:textSize="16sp"
-                            android:textColor="@color/material_color_black" />
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/material_color_grey_primary"/>
+                            android:src="@drawable/ic_arrow_right" />
                     </LinearLayout>
 
                     <!-- App Settings -->
@@ -167,23 +160,20 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_settings"
-                            app:tint="@color/material_color_black" />
+                            android:src="@drawable/ic_settings"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="@string/app_settings"
-                            android:textSize="16sp"
-                            android:textColor="@color/material_color_black" />
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/material_color_grey_primary"/>
+                            android:src="@drawable/ic_arrow_right"/>
                     </LinearLayout>
 
                     <!-- Logout -->
@@ -201,23 +191,20 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_logout"
-                            app:tint="@color/material_color_black" />
+                            android:src="@drawable/ic_logout" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="@string/logout_setting"
-                            android:textSize="16sp"
-                            android:textColor="@color/material_color_black" />
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:tint="@color/material_color_grey_primary"/>
+                            android:src="@drawable/ic_arrow_right"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

@@ -65,22 +65,22 @@ class CartFragment : Fragment() {
             when (state) {
                 is State.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
-                    binding.emptyCartLayout.visibility = View.GONE
+                    binding.noOrdersLayout.visibility = View.GONE
                 }
                 is State.Success -> {
                     binding.progressBar.visibility = View.GONE
                     if (State.Success(state).toData()?.data?.data?.cartItems.isNullOrEmpty()) {
-                        binding.emptyCartLayout.visibility = View.VISIBLE
+                        binding.noOrdersLayout.visibility = View.VISIBLE
                         binding.checkoutButton.visibility = View.GONE
                     } else {
-                        binding.emptyCartLayout.visibility = View.GONE
+                        binding.noOrdersLayout.visibility = View.GONE
                         binding.checkoutButton.visibility = View.VISIBLE
                     }
                     cartAdapter.submitList(state.data?.data?.cartItems)
                 }
                 is State.Fail -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.emptyCartLayout.visibility = View.VISIBLE
+                    binding.noOrdersLayout.visibility = View.VISIBLE
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
             }

@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="50 AED"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryLight"
+                android:textColor="@color/primary"
                 android:textSize="16sp"
                 android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="@+id/productImg"

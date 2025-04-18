@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -50,14 +51,15 @@ class HomeFragment : Fragment(), ProductTouchListener {
     private fun setupRecyclerView() {
         productAdapter = ProductAdapter(this@HomeFragment)
         binding.recyclerView.adapter = productAdapter
-        binding.searchEdit.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?) = false
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                productAdapter.filter(newText ?: "")
-                return true
+        binding.searchEditText.setOnEditorActionListener{ _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val query = binding.searchEditText.text.toString()
+                productAdapter.filter(query)
+                true
+            } else {
+                false
             }
-        })
+        }
     }
 
     private fun observeHomeItems() {

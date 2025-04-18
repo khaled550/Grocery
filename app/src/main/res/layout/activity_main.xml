@@ -6,14 +6,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.MainActivity"
+        android:background="?attr/android:colorBackground">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -21,19 +21,22 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:title="Grocery"
-                app:titleTextColor="@android:color/white" />
+                app:titleTextColor="?attr/android:colorBackground" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:name="androidx.navigation.fragment.NavHostFragment"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_main_graph"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"/>
+            app:layout_constraintVertical_bias="1.0"
+            app:navGraph="@navigation/nav_main_graph"
+            tools:layout_editor_absoluteX="164dp"
+            android:background="?attr/android:colorBackground"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
